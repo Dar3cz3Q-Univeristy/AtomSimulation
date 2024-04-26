@@ -6,6 +6,9 @@
 *.user
 *imgui.ini
 
+# Exclude
+!Vendor/Binaries
+
 # Visual Studio
 .vs/
 *.sln
