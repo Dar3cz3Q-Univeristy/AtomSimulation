@@ -1,3 +1,6 @@
+# Exclude
+!Vendor/Binaries
+
 # Directories
 **bin/
 **bin-int/
@@ -5,9 +8,6 @@
 # Files
 *.user
 *imgui.ini
-
-# Exclude
-!Vendor/Binaries
 
 # Visual Studio
 .vs/
