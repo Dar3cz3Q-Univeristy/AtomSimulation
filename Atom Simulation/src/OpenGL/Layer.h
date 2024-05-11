@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "Debug.h"
 #include "Renderer.h"
 #include "Shader.h"
 #include "Camera.h"

@@ -64,6 +64,8 @@ Example::Example(GLFWwindow* window)
     glfwGetWindowSize(m_Window, &width, &height);
 
     m_Camera = Camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+
+    AS_LOG("Layer initialized");
 }
 
 Example::~Example() {}
