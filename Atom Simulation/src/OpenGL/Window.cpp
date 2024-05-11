@@ -4,7 +4,7 @@
 #include "Layers/Example.h"
 
 Window::Window(uint32_t width, uint32_t height, const std::string& title) :
-	m_Window(nullptr), m_Width(width), m_Height(height), m_Minimized(false), m_Running(false), m_LastFrameTime(0.0f)
+	m_Window(nullptr), m_Width(width), m_Height(height), m_Title(title), m_Minimized(false), m_Running(false), m_LastFrameTime(0.0f), m_Counter(0)
 {
     // Initializing window
     int status = glfwInit();
@@ -55,7 +55,6 @@ void Window::Run()
         {
             float time = static_cast<float>(glfwGetTime());
             float deltaTime = time - m_LastFrameTime;
-            m_LastFrameTime = time;
 
             for (Layer* layer : m_LayerStack) 
             {
@@ -63,7 +62,8 @@ void Window::Run()
             }
 
 #ifdef AS_DELTA_TIME
-            if (deltaTime > AS_DELTA_TIME) {
+            if (deltaTime >= AS_DELTA_TIME) {
+                m_LastFrameTime = time;
                 for (Layer* layer : m_LayerStack) 
                 {
                     layer->OnUpdate();
@@ -86,6 +86,8 @@ void Window::Update()
 {
     glfwSwapBuffers(m_Window);
     glfwPollEvents();
+
+    Statistics();
 }
 
 void Window::Events()
@@ -110,4 +112,24 @@ void Window::Events()
 void Window::PushLayer(Layer* layer)
 {
     m_LayerStack.PushLayer(layer);
+}
+
+void Window::Statistics()
+{
+#ifdef AS_DELTA_TIME
+    float time = static_cast<float>(glfwGetTime());
+    float deltaTime = time - m_LastFrameTime;
+
+    m_Counter++;
+
+    if (deltaTime >= AS_DELTA_TIME) {
+        float fps = (1.0 / deltaTime) * m_Counter;
+        float ms = (deltaTime / m_Counter) * 1000;
+
+        std::string newTitle = m_Title + ": " + std::to_string(fps) + " FPS, " + std::to_string(ms) + " ms";
+        glfwSetWindowTitle(m_Window, newTitle.c_str());
+
+        m_Counter = 0;
+    }
+#endif
 }

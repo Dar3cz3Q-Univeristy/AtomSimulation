@@ -5,7 +5,7 @@ Example::Example(GLFWwindow* window)
     m_Window = window;
 
     GLCall(glEnable(GL_DEPTH_TEST));
-    GLCall(glDepthFunc(GL_LEQUAL));
+    GLCall(glDepthFunc(GL_LESS));
     GLCall(glEnable(GL_BLEND));
     GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 

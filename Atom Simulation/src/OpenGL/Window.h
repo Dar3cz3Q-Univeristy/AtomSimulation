@@ -12,7 +12,7 @@
 #include "Layer.h"
 #include "LayerStack.h"
 
-//#define AS_DELTA_TIME 1.0/30.0
+#define AS_DELTA_TIME 1.0/30.0
 
 class Window
 {
@@ -21,16 +21,20 @@ public:
 	Window(uint32_t width, uint32_t height, const std::string& title);
 	~Window();
 	void Run();
-	void Update();
-	void Events();
-	void PushLayer(Layer* layer);
 private:
 	GLFWwindow* m_Window;
 	int m_Width;
 	int m_Height;
+	std::string m_Title;
 	bool m_Running;
 	bool m_Minimized;
 	float m_LastFrameTime;
 	LayerStack m_LayerStack;
+	unsigned int m_Counter;
+
+	void Update();
+	void Events();
+	void PushLayer(Layer* layer);
+	void Statistics();
 };
 
