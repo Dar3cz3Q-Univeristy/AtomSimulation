@@ -6,18 +6,25 @@
 
 #include "Renderer.h"
 
-Shader::Shader(const std::string& vertex_filepath, const std::string& fragment_filepath)
-	: m_VertexFilePath(vertex_filepath), m_FragmentFilePath(fragment_filepath), m_RendererID(0)
+Shader::Shader()
+	: m_RendererID(0)
 {
-    std::string vertexSource = ParseShader(vertex_filepath);
-    std::string fragmentSource = ParseShader(fragment_filepath);
-
-    m_RendererID = CreateShader(vertexSource, fragmentSource);
 }
 
 Shader::~Shader()
 {
     GLCall(glDeleteProgram(m_RendererID));
+}
+
+void Shader::Init(const std::string& vertex_filepath, const std::string& fragment_filepath)
+{
+    m_VertexFilePath = vertex_filepath;
+    m_FragmentFilePath = fragment_filepath;
+
+    std::string vertexSource = ParseShader(vertex_filepath);
+    std::string fragmentSource = ParseShader(fragment_filepath);
+
+    m_RendererID = CreateShader(vertexSource, fragmentSource);
 }
 
 void Shader::Bind() const

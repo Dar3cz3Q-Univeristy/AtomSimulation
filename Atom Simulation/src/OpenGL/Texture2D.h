@@ -4,9 +4,10 @@
 class Texture2D : public Texture
 {
 public:
-	Texture2D(const std::string& filepath);
+	Texture2D();
 	~Texture2D();
 
+	void Init(const std::string& filepath);
 	void Bind(unsigned int slot = 0) const override;
 	void Unbind() const override;
 

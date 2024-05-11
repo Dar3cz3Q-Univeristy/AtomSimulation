@@ -7,9 +7,10 @@
 class Shader
 {
 public:
-	Shader(const std::string& vertex_filepath, const std::string& fragment_filepath);
+	Shader();
 	~Shader();
 
+	void Init(const std::string& vertex_filepath, const std::string& fragment_filepath);
 	void Bind() const;
 	void Unbind() const;
 

@@ -2,10 +2,22 @@
 
 std::string TextureCubeMap::m_Faces[] = { "right", "left", "top", "bottom", "back", "front" };
 
-TextureCubeMap::TextureCubeMap(const std::string& foldername, const std::string& extension)
-	: m_RendererID(0), m_FolderPath(foldername), m_Extension(extension), m_LocalBuffer(nullptr), m_SideLength(0), m_BPP(0)
+TextureCubeMap::TextureCubeMap()
+	: m_RendererID(0), m_FolderPath(""), m_Extension(""), m_LocalBuffer(nullptr), m_SideLength(0), m_BPP(0)
 {
 	GLCall(glGenTextures(1, &m_RendererID));
+}
+
+TextureCubeMap::~TextureCubeMap()
+{
+	GLCall(glDeleteTextures(1, &m_RendererID));
+}
+
+void TextureCubeMap::Init(const std::string& folderpath, const std::string& extension)
+{
+	m_FolderPath = folderpath;
+	m_Extension = extension;
+
 	GLCall(glBindTexture(GL_TEXTURE_CUBE_MAP, m_RendererID));
 
 	GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
@@ -56,11 +68,6 @@ TextureCubeMap::TextureCubeMap(const std::string& foldername, const std::string&
 
 		stbi_image_free(m_LocalBuffer);
 	}
-}
-
-TextureCubeMap::~TextureCubeMap()
-{
-	GLCall(glDeleteTextures(1, &m_RendererID));
 }
 
 void TextureCubeMap::Bind(unsigned int slot) const

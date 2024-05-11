@@ -15,6 +15,7 @@
 class Camera
 {
 public:
+	Camera() = default;
 	Camera(int width, int height, glm::vec3 position);
 	void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const std::string& uniform);
 	void Inputs(GLFWwindow* window);

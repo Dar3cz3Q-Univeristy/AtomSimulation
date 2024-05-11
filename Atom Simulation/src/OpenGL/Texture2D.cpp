@@ -1,12 +1,23 @@
 #include "Texture2D.h"
 
-Texture2D::Texture2D(const std::string& filepath)
-	: m_RendererID(0), m_FilePath(filepath), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0)
+Texture2D::Texture2D()
+	: m_RendererID(0), m_FilePath(""), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0)
 {
+	GLCall(glGenTextures(1, &m_RendererID));
+}
+
+Texture2D::~Texture2D()
+{
+	GLCall(glDeleteTextures(1, &m_RendererID));
+}
+
+void Texture2D::Init(const std::string& filepath)
+{
+	m_FilePath = filepath;
+
 	stbi_set_flip_vertically_on_load(1);
 	m_LocalBuffer = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
 
-	GLCall(glGenTextures(1, &m_RendererID));
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
@@ -19,11 +30,6 @@ Texture2D::Texture2D(const std::string& filepath)
 
 	if (m_LocalBuffer)
 		stbi_image_free(m_LocalBuffer);
-}
-
-Texture2D::~Texture2D()
-{
-	GLCall(glDeleteTextures(1, &m_RendererID));
 }
 
 void Texture2D::Bind(unsigned int slot) const

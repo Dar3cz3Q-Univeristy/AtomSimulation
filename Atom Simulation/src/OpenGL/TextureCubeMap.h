@@ -4,9 +4,10 @@
 class TextureCubeMap : public Texture
 {
 public:
-	TextureCubeMap(const std::string& folderpath, const std::string& extension);
+	TextureCubeMap();
 	~TextureCubeMap();
 
+	void Init(const std::string& folderpath, const std::string& extension);
 	void Bind(unsigned int slot = 0) const override;
 	void Unbind() const override;
 
