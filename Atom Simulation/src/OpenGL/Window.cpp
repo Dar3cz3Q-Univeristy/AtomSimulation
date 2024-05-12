@@ -15,8 +15,8 @@ Window::Window(int width, int height, const std::string& title) :
 
     m_Camera = Camera(m_Width, m_Height, glm::vec3(0.0f, 0.0f, 4.0f));
 
-    PushLayer(new Example(m_Window, &m_Camera));
-    //PushLayer(new Atom(m_Window, &m_Camera));
+    //PushLayer(new Example(m_Window, &m_Camera));
+    PushLayer(new Atom(m_Window, &m_Camera));
 }
 
 Window::~Window()

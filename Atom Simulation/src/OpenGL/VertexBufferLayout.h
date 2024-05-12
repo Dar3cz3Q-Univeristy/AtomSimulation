@@ -3,6 +3,7 @@
 #include <vector>
 #include "glad/glad.h"
 #include "Renderer.h"
+#include "Vertex.h"
 
 struct VertexBufferElement {
 	unsigned int type;

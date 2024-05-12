@@ -1,8 +1,8 @@
 #include "VertexArray.h"
-#include "Renderer.h"
 #include "VertexBufferLayout.h"
 
 VertexArray::VertexArray()
+	: m_Offset(0)
 {
 	GLCall(glGenVertexArrays(1, &m_RendererID));
 }
@@ -16,6 +16,7 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 {
 	Bind();
 	vb.Bind();
+
 	const auto& elements = layout.GetElements();
 	unsigned int offset = 0;
 	for (unsigned int i = 0; i < elements.size(); i++) {
@@ -24,6 +25,21 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 		GLCall(glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.GetStride(), (const void*)offset));
 		offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
 	}
+
+	vb.Unbind();
+}
+
+void VertexArray::LinkAttribute(const VertexBuffer& vb, unsigned int location, unsigned int count, GLenum type, size_t size)
+{
+	Bind();
+	vb.Bind();
+
+	glVertexAttribPointer(location, count, type, GL_FALSE, size, (const void*)m_Offset);
+	glEnableVertexAttribArray(location);
+
+	m_Offset += count * VertexBufferElement::GetSizeOfType(type);
+
+	vb.Unbind();
 }
 
 void VertexArray::Bind() const

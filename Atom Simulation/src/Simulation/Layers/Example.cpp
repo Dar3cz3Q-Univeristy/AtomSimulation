@@ -6,17 +6,15 @@ Example::Example(GLFWwindow* window, Camera* camera)
     m_Window = window;
     m_Camera = camera;
 
-    // 3D Cube
-    float positions[] = {
-        //     Coordinates      //         Colors     
-          -0.5f,  -0.5f,   0.5f,  1.0f,   1.0f,   1.0f,    // lower left near 0
-           0.5f,  -0.5f,   0.5f,  1.0f,   0.0f,   0.0f,    // lower right near 1
-          -0.5f,  -0.5f,  -0.5f,  0.0f,   1.0f,   0.0f,    // lower left far 2
-           0.5f,  -0.5f,  -0.5f,  0.0f,   0.0f,   1.0f,    // lower right far 3
-          -0.5f,   0.5f,   0.5f,  0.98f,  0.72f,  0.01f,    // upper left near 4
-           0.5f,   0.5f,   0.5f,  0.94f,  0.01f,  0.98f,    // upper right near 5
-          -0.5f,   0.5f,  -0.5f,  0.01f,  0.98f,  0.98f,    // upper left far 6
-           0.5f,   0.5f,  -0.5f,  0.58f,  0.01f,  0.98f     // upper right far 7
+    Vertex verticies[] = {
+        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f), glm::vec2(0.0f)),       // lower left near 0
+        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),        // lower right near 1
+        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),      // lower left far 2
+        Vertex(glm::vec3(0.5f,  -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f), glm::vec2(0.0f)),      // lower right far 3
+        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.98f, 0.72f, 0.01f), glm::vec3(0.0f), glm::vec2(0.0f)),     // upper left near 4
+        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.94f, 0.01f, 0.98f), glm::vec3(0.0f), glm::vec2(0.0f)),      // upper right near 5
+        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.01f, 0.98f, 0.98f), glm::vec3(0.0f), glm::vec2(0.0f)),    // upper left far 6
+        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.58f, 0.01f, 0.98f), glm::vec3(0.0f), glm::vec2(0.0f))      // upper right far 7
     };
 
     unsigned int indices[] = {
@@ -40,14 +38,12 @@ Example::Example(GLFWwindow* window, Camera* camera)
         5, 6, 7
     };
 
-    m_VB.Init(positions, 8 * 3 * 3 * sizeof(float));
+    m_VB.Init(verticies, sizeof(verticies));
 
-    m_Layout.Push<float>(3);  // Coordinates
-    m_Layout.Push<float>(3);  // Colors
+    m_VA.LinkAttribute(m_VB, 0, 3, GL_FLOAT, sizeof(Vertex));   // Position
+    m_VA.LinkAttribute(m_VB, 1, 3, GL_FLOAT, sizeof(Vertex));   // Normal
 
-    m_VA.AddBuffer(m_VB, m_Layout);
-
-    m_IB.Init(indices, 6 * 2 * 3);
+    m_IB.Init(indices, sizeof(indices));
 
     m_Shader.Init("res/shaders/cube_texture.vert.shader", "res/shaders/cube_texture.frag.shader");
     m_Shader.Bind();

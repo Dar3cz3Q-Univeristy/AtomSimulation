@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 class IndexBuffer {
 public:
@@ -6,6 +7,7 @@ public:
 	~IndexBuffer();
 
 	void Init(const unsigned int* data, unsigned int count);
+	void Init(const std::vector<unsigned int>& data);
 	void Bind() const;
 	void Unbind() const;
 
