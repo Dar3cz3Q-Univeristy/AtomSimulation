@@ -1,13 +1,10 @@
 #include "Example.h"
 
-Example::Example(GLFWwindow* window)
+Example::Example(GLFWwindow* window, Camera* camera)
+    : m_Window(nullptr), m_Camera(nullptr)
 {
     m_Window = window;
-
-    GLCall(glEnable(GL_DEPTH_TEST));
-    GLCall(glDepthFunc(GL_LESS));
-    GLCall(glEnable(GL_BLEND));
-    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    m_Camera = camera;
 
     // 3D Cube
     float positions[] = {
@@ -59,25 +56,20 @@ Example::Example(GLFWwindow* window)
     m_Texture.Bind();
 
     m_Shader.SetUniform1i("u_Texture", 0);
-    
-    int width{}, height{};
-    glfwGetWindowSize(m_Window, &width, &height);
 
-    m_Camera = Camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
-
-    AS_LOG("Layer initialized");
+    AS_LOG("Example layer initialized");
 }
 
 Example::~Example() {}
 
 void Example::OnDraw()
 {
-    m_Renderer.Clear();
+    m_Camera->Matrix(m_Shader, "u_MVP");
+
     m_Renderer.Draw(m_VA, m_IB, m_Shader);
 }
 
 void Example::OnUpdate()
 {
-    m_Camera.Inputs(m_Window);
-    m_Camera.Matrix(90, 0.5f, -0.5f, m_Shader, "u_MVP");
+    m_Camera->Inputs(m_Window);
 }

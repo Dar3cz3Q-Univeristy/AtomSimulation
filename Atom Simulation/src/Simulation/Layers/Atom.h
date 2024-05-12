@@ -1,11 +1,12 @@
 #pragma once
+
 #include "Layer.h"
 
-class Example : public Layer
+class Atom : public Layer
 {
 public:
-	Example(GLFWwindow* window, Camera* camera);
-	~Example();
+	Atom(GLFWwindow* window, Camera* camera);
+	~Atom();
 
 	void OnDraw() override;
 	void OnUpdate() override;

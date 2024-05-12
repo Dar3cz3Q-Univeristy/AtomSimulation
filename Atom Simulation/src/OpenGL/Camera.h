@@ -17,12 +17,16 @@ class Camera
 public:
 	Camera() = default;
 	Camera(int width, int height, glm::vec3 position);
-	void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const std::string& uniform);
+	void Matrix(Shader& shader, const std::string& uniform) const;
+	void UpdateMatrix(float FOVdeg, float nearPlane, float farPlane);
 	void Inputs(GLFWwindow* window);
+	void UpdateWidth(int width) { m_Width = width; };
+	void UpdateHeight(int height) { m_Height = height; };
 private:
 	glm::vec3 m_Position;
 	glm::vec3 m_Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::mat4 m_CameraMatrix = glm::mat4(1.0f);
 	bool m_FirstClick = true;
 	int m_Width;
 	int m_Height;

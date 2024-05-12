@@ -11,6 +11,7 @@
 #include "Shader.h"
 #include "Layer.h"
 #include "LayerStack.h"
+#include "Camera.h"
 
 #define AS_DELTA_TIME 1.0/30.0
 
@@ -18,8 +19,9 @@ class Window
 {
 public:
 	Window() = default;
-	Window(uint32_t width, uint32_t height, const std::string& title);
+	Window(int width, int height, const std::string& title);
 	~Window();
+
 	void Run();
 private:
 	GLFWwindow* m_Window;
@@ -31,10 +33,15 @@ private:
 	float m_LastFrameTime;
 	LayerStack m_LayerStack;
 	unsigned int m_Counter;
+	Camera m_Camera;
+	Renderer m_Renderer;
 
+	void Init();
 	void Update();
 	void Events();
 	void PushLayer(Layer* layer);
 	void Statistics();
 };
+
+void WindowResizeCallBack(GLFWwindow* window, int width, int height);
 
