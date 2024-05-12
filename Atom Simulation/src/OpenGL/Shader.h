@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 class Shader
 {
@@ -17,7 +18,9 @@ public:
 	// Set uniforms
 	void SetUniform1i(const std::string& name, int value);
 	void SetUniform1f(const std::string& name, float value);
+	void SetUniform3fv(const std::string& name, const std::vector<glm::vec3>& data);
 	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
+	void SetUniform4fv(const std::string& name, const std::vector<glm::vec4>& data);
 	void SetUniformMat3f(const std::string& name, const glm::mat3& matrix);
 	void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
 private:
