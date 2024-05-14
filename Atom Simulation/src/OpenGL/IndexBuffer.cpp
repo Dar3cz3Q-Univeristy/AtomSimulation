@@ -1,5 +1,4 @@
 #include "IndexBuffer.h"
-
 #include "Renderer.h"
 
 IndexBuffer::IndexBuffer()
@@ -27,7 +26,7 @@ void IndexBuffer::Init(const std::vector<unsigned int>& data)
 {
 	ASSERT(sizeof(unsigned int) == sizeof(GLuint));
 
-	m_Count = data.size();
+	m_Count = static_cast<unsigned int>(data.size());
 
 	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));
 	GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Count * sizeof(unsigned int), data.data(), GL_STATIC_DRAW));

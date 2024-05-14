@@ -1,9 +1,11 @@
 #pragma once
+
 #include <vector>
 
 #include "Vertex.h"
 
-class VertexBuffer {
+class VertexBuffer 
+{
 public:
 	VertexBuffer();
 	~VertexBuffer();

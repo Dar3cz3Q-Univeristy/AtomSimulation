@@ -6,7 +6,8 @@ Example::Example(GLFWwindow* window, Camera* camera)
     m_Window = window;
     m_Camera = camera;
 
-    Vertex verticies[] = {
+    Vertex verticies[] = 
+    {
         Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f), glm::vec2(0.0f)),       // lower left near 0
         Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),        // lower right near 1
         Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),      // lower left far 2
@@ -17,7 +18,8 @@ Example::Example(GLFWwindow* window, Camera* camera)
         Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.58f, 0.01f, 0.98f), glm::vec3(0.0f), glm::vec2(0.0f))      // upper right far 7
     };
 
-    unsigned int indices[] = {
+    unsigned int indices[] = 
+    {
         // bottom square
         0, 1, 2,
         2, 1, 3,

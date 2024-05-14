@@ -1,4 +1,5 @@
 #pragma once
+
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
@@ -7,6 +8,8 @@
 #include <unordered_map>
 
 #include "Debug.h"
+#include "Tools.h"
+
 #include "Renderer.h"
 #include "Shader.h"
 #include "Layer.h"

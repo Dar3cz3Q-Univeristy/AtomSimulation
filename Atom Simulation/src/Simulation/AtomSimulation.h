@@ -1,7 +1,10 @@
 #pragma once
-#include "Window.h"
 
-class AtomSimulation {
+#include "Window.h"
+#include "Specification.h"
+
+class AtomSimulation 
+{
 public:
 	AtomSimulation();
 	~AtomSimulation();

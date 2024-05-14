@@ -1,15 +1,8 @@
 #include "Shader.h"
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <iostream>
-
 #include "Renderer.h"
 
 Shader::Shader()
-	: m_RendererID(0)
-{
-}
+	: m_RendererID(0) {}
 
 Shader::~Shader()
 {
@@ -44,9 +37,8 @@ std::string Shader::ParseShader(const std::string& filepath)
     std::string line;
     std::stringstream ss;
 
-    while (getline(stream, line)) {
+    while (getline(stream, line))
         ss << line << "\n";
-    }
 
     stream.close();
 
@@ -63,7 +55,8 @@ unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
     int result;
     glGetShaderiv(id, GL_COMPILE_STATUS, &result);
 
-    if (result == GL_FALSE) {
+    if (result == GL_FALSE) 
+    {
         int length;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
         char* message = (char*)alloca(length * sizeof(char));
@@ -72,6 +65,7 @@ unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
         std::cout << "Failed to compile " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << " shader!" << std::endl;
         std::cout << message << std::endl;
         glDeleteShader(id);
+
         return 0;
     }
 
@@ -108,6 +102,11 @@ void Shader::SetUniform1f(const std::string& name, float value)
 void Shader::SetUniform3fv(const std::string& name, const std::vector<glm::vec3>& data)
 {
     GLCall(glUniform3fv(GetUniformLocation(name), data.size(), glm::value_ptr(data[0])));
+}
+
+void Shader::SetUniform3fv(const std::string& name, std::array<glm::vec3, ELECTRON_COUNT>& data)
+{
+    //GLCall(glUniform3fv(GetUniformLocation(name), ELECTRON_COUNT, glm::value_ptr(data.data())));
 }
 
 void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)

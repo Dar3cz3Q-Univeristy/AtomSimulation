@@ -1,6 +1,10 @@
 #pragma once
 
+#include <array>
+
 #include "Layer.h"
+#include "Specification.h"
+
 #include "Objects/Particle.h"
 #include "Objects/Electron.h"
 

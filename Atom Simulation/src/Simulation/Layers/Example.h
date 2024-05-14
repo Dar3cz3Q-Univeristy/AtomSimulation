@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Layer.h"
 
 class Example : public Layer

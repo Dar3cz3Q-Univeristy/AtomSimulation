@@ -29,6 +29,7 @@ project "Atom Simulation"
 		"src/vendor",
 		"src/Simulation",
 		"src/OpenGL",
+		"src/Utils",
 		"Dependencies/glad/include",
 		"Dependencies/GLFW/include"
 	}

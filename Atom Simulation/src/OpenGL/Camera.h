@@ -1,16 +1,14 @@
 #pragma once
 
-#include "Renderer.h"
-#include "Shader.h"
-
-#include "GLFW/glfw3.h"
-
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/rotate_vector.hpp"
 #include "glm/gtx/vector_angle.hpp"
+
+#include "Renderer.h"
+#include "Shader.h"
 
 class Camera
 {

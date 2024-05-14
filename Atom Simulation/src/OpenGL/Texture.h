@@ -1,8 +1,9 @@
 #pragma once
-#include "Renderer.h"
+#include <iostream>
 
 #include "stb_image/stb_image.h"
-#include <iostream>
+
+#include "Renderer.h"
 
 class Texture
 {

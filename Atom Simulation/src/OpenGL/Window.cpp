@@ -13,11 +13,11 @@ Window::Window(int width, int height, const std::string& title) :
 {
     Init();
 
+    m_Camera = Camera(m_Width, m_Height, glm::vec3(0.0f, 0.0f, 4.0f));
+
     //
     // Push layers on stack
     //
-
-    m_Camera = Camera(m_Width, m_Height, glm::vec3(0.0f, 0.0f, 4.0f));
 
     //PushLayer(new Example(m_Window, &m_Camera));
     PushLayer(new Atom(m_Window, &m_Camera));
@@ -37,6 +37,7 @@ void Window::Run()
         float time = static_cast<float>(glfwGetTime());
         s_DeltaTime = time - s_LastFrameTime;
         s_SumDeltaTime += s_DeltaTime;
+        s_LastFrameTime = time;
 
         if (!m_Minimized) 
         {
@@ -46,18 +47,12 @@ void Window::Run()
             for (Layer* layer : m_LayerStack) 
             {
                 layer->OnDraw();
-            }
-
-            for (Layer* layer : m_LayerStack)
-            {
                 layer->OnUpdate();
             }
         }
 
         Update();
         Events();
-
-        s_LastFrameTime = time;
     } 
 }
 
@@ -78,11 +73,11 @@ void Window::Init()
 
     glfwMakeContextCurrent(m_Window);
 
-    glfwSwapInterval(0);
+    glfwSwapInterval(0); // Set VSync
 
     gladLoadGL();
 
-    // Resize
+    // Resize event callback
     glfwSetFramebufferSizeCallback(m_Window, WindowResizeCallBack);
 
     GLCall(glEnable(GL_DEPTH_TEST));
@@ -137,7 +132,7 @@ void Window::Statistics()
         float fps = m_Counter;
         float ms = (s_DeltaTime / m_Counter) * 1000.0f;
 
-        std::string newTitle = m_Title + ": " + std::to_string(fps) + " FPS, " + std::to_string(ms) + " ms";
+        std::string newTitle = m_Title + ": " + to_string_with_precision(fps, 0) + " FPS, " + std::to_string(ms) + " ms";
         glfwSetWindowTitle(m_Window, newTitle.c_str());
 
         m_Counter = 0;

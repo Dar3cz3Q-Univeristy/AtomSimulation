@@ -52,18 +52,19 @@ void Atom::OnDraw()
 	m_LightShader.Bind();
 	m_Camera->Matrix(m_LightShader, "u_VP");
 
-	std::vector<glm::vec3> electronsPosition;
-	electronsPosition.reserve(m_Electrons.size());
+	std::array<glm::vec3, ELECTRON_COUNT> electronsPosition{};
+	std::array<glm::vec3, ELECTRON_COUNT> electronsColors{};
 
-	std::vector<glm::vec3> electronsColors;
-	electronsColors.reserve(m_Electrons.size());
+	int counter = 0;
 
-	for (auto& electron : m_Electrons) {
+	for (auto& electron : m_Electrons) 
+	{
 		electron->Draw(m_LightShader);
 
 		// Save lights positions and colors to vector
-		electronsPosition.push_back(electron->GetPosition());
-		electronsColors.push_back(electron->GetColor());
+
+		electronsPosition[counter] = electron->GetPosition();
+		electronsColors[counter] = electron->GetColor();
 	}
 
 	// Update lights positions and colors
@@ -72,9 +73,8 @@ void Atom::OnDraw()
 	m_DefaultShader.SetUniform3fv("u_MultipleLightColor", electronsColors);
 
 	// Draw Core
-	for (auto& particle : m_Particles) {
+	for (auto& particle : m_Particles)
 		particle->Draw(m_DefaultShader);
-	}
 }
 
 void Atom::OnUpdate()
@@ -94,7 +94,8 @@ void Atom::AddElectron(Electron* electron)
 
 void Atom::CreateCore(unsigned int count)
 {
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 1; i++) 
+	{
 		Particle* temp = new Particle(PROTON, glm::vec3(1 * i, 0, 0), .3f, count);
 		AddParticle(temp);
 	}

@@ -2,7 +2,7 @@
 
 AtomSimulation::AtomSimulation()
 {
-	m_Window = new Window(800, 800, "Symulacja atomu");
+	m_Window = new Window(WIDTH, HEIGHT, TITLE);
 }
 
 AtomSimulation::~AtomSimulation()
