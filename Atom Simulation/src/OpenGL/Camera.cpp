@@ -1,12 +1,10 @@
 #include "Camera.h"
 #include "Window.h"
 
+Camera::Camera() : m_Width(0), m_Height(0), m_Position({}) {}
+
 Camera::Camera(int width, int height, glm::vec3 position)
-{
-	Camera::m_Width = width;
-	Camera::m_Height = height;
-	m_Position = position;
-}
+	: m_Width(width), m_Height(height), m_Position(position) {}
 
 void Camera::Matrix(Shader& shader, const std::string& uniform) const
 {

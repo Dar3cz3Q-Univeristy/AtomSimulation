@@ -8,8 +8,8 @@ float Window::s_LastFrameTime = 0.0f;
 float Window::s_DeltaTime = 0.0f;
 float Window::s_SumDeltaTime = 0.0f;
 
-Window::Window(int width, int height, const std::string& title) :
-	m_Window(nullptr), m_Width(width), m_Height(height), m_Title(title), m_Minimized(false), m_Running(false), m_Counter(0)
+Window::Window(int width, int height, const std::string& title) 
+    : m_Window(nullptr), m_Width(width), m_Height(height), m_Title(title), m_Minimized(false), m_Running(false), m_Counter(0)
 {
     Init();
 
@@ -73,7 +73,7 @@ void Window::Init()
 
     glfwMakeContextCurrent(m_Window);
 
-    glfwSwapInterval(0); // Set VSync
+    glfwSwapInterval(1); // Set VSync
 
     gladLoadGL();
 
@@ -128,11 +128,12 @@ void Window::Statistics()
 {
     m_Counter++;
 
-    if (s_SumDeltaTime >= 1.0f) {
-        float fps = m_Counter;
-        float ms = (s_DeltaTime / m_Counter) * 1000.0f;
+    if (s_SumDeltaTime >= 1.0f) 
+    {
+        // float fps = m_Counter;
+        // float ms = (s_DeltaTime / m_Counter) * 1000.0f;
 
-        std::string newTitle = m_Title + ": " + to_string_with_precision(fps, 0) + " FPS, " + std::to_string(ms) + " ms";
+        std::string newTitle = m_Title + ": " + to_string_with_precision(m_Counter, 0) + " FPS";
         glfwSetWindowTitle(m_Window, newTitle.c_str());
 
         m_Counter = 0;

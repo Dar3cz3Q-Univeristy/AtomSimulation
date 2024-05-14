@@ -13,7 +13,7 @@
 class Camera
 {
 public:
-	Camera() = default;
+	Camera();
 	Camera(int width, int height, glm::vec3 position);
 	void Matrix(Shader& shader, const std::string& uniform) const;
 	void UpdateMatrix(float FOVdeg, float nearPlane, float farPlane);

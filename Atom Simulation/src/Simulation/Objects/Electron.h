@@ -5,7 +5,7 @@
 class Electron
 {
 public:
-	Electron(const glm::vec3& position, float scale, float rotationSpeed, const glm::vec3& rotationAxis, unsigned int count, const glm::vec3& color = glm::vec3(1.0f));
+	Electron(const glm::vec3& position, float scale, float angularSpeed, const glm::vec3& rotationAxis, unsigned int count, const glm::vec3& color = glm::vec3(1.0f));
 	~Electron();
 
 	void Draw(Shader& shader);
@@ -18,14 +18,11 @@ private:
 	glm::vec3 m_Color;
 	glm::vec3 m_RotationAxis;
 	float m_Scale;
-	float m_RotationSpeed;
-	float m_CurrentAngle;
+	float m_AngularSpeed;
 	unsigned int m_Count;
 
 	const glm::vec3 c_CenterPoint = glm::vec3(0.0f);
 	const glm::vec4 c_Geometry = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	glm::mat4 RotateAroundPoint();
-
-	float AngleDifference(float a, float b);
 };
 

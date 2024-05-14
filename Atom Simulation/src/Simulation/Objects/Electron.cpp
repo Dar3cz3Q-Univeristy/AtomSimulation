@@ -1,10 +1,8 @@
 #include "Electron.h"
 #include "Window.h"
 
-Electron::Electron(const glm::vec3& position, float scale, float rotationAngle, const glm::vec3& rotationAxis, unsigned int count, const glm::vec3& color)
-	: m_Position(position), m_Color(color), m_RotationAxis(rotationAxis), m_Scale(scale), m_RotationSpeed(rotationAngle), m_CurrentAngle(rotationAngle), m_Count(count)
-{
-}
+Electron::Electron(const glm::vec3& position, float scale, float angularSpeed, const glm::vec3& rotationAxis, unsigned int count, const glm::vec3& color)
+	: m_Position(position), m_Color(color), m_RotationAxis(rotationAxis), m_Scale(scale), m_AngularSpeed(angularSpeed), m_Count(count) {}
 
 Electron::~Electron() {}
 
@@ -29,13 +27,8 @@ void Electron::Draw(Shader& shader)
 glm::mat4 Electron::RotateAroundPoint()
 {
 	auto t1 = glm::translate(glm::mat4(1), -c_CenterPoint);
-	auto r = glm::rotate(glm::mat4(1), glm::radians(m_RotationSpeed) * Window::GetDeltaTime(), m_RotationAxis);
+	auto r = glm::rotate(glm::mat4(1), glm::radians(m_AngularSpeed) * Window::GetDeltaTime(), m_RotationAxis);
 	auto t2 = glm::translate(glm::mat4(1), c_CenterPoint);
 
 	return t2 * r * t1;
-}
-
-float Electron::AngleDifference(float a, float b)
-{
-	return fmod(fabs(a - b) + 180.0, 2 * 180.0) - 180.0;
 }

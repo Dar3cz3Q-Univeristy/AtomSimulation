@@ -1,6 +1,8 @@
 #include "Shader.h"
 #include "Renderer.h"
 
+#include "Debug.h"
+
 Shader::Shader()
 	: m_RendererID(0) {}
 
@@ -101,12 +103,12 @@ void Shader::SetUniform1f(const std::string& name, float value)
 
 void Shader::SetUniform3fv(const std::string& name, const std::vector<glm::vec3>& data)
 {
-    GLCall(glUniform3fv(GetUniformLocation(name), data.size(), glm::value_ptr(data[0])));
+    GLCall(glUniform3fv(GetUniformLocation(name), static_cast<GLsizei>(data.size()), glm::value_ptr(data[0])));
 }
 
 void Shader::SetUniform3fv(const std::string& name, std::array<glm::vec3, ELECTRON_COUNT>& data)
 {
-    //GLCall(glUniform3fv(GetUniformLocation(name), ELECTRON_COUNT, glm::value_ptr(data.data())));
+    GLCall(glUniform3fv(GetUniformLocation(name), ELECTRON_COUNT, glm::value_ptr(data[0])));
 }
 
 void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
@@ -116,7 +118,7 @@ void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2,
 
 void Shader::SetUniform4fv(const std::string& name, const std::vector<glm::vec4>& data)
 {
-    GLCall(glUniform4fv(GetUniformLocation(name), data.size(), glm::value_ptr(data[0])));
+    GLCall(glUniform4fv(GetUniformLocation(name), static_cast<GLsizei>(data.size()), glm::value_ptr(data[0])));
 }
 
 void Shader::SetUniformMat3f(const std::string& name, const glm::mat3& matrix)

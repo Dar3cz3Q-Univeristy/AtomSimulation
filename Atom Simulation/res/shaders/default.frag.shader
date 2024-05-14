@@ -7,8 +7,10 @@ in vec4 v_Color;
 in vec2 v_TexCoord;
 in vec3 v_Normals;
 
-uniform vec3 u_MultipleLightPos[3];
-uniform vec3 u_MultipleLightColor[3];
+const int ELECTRON_COUNT = 3;	// Keep number of electrons up to date in Specification.h
+
+uniform vec3 u_MultipleLightPos[ELECTRON_COUNT];
+uniform vec3 u_MultipleLightColor[ELECTRON_COUNT];
 
 void main() 
 {

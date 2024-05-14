@@ -35,7 +35,7 @@ void VertexArray::LinkAttribute(const VertexBuffer& vb, unsigned int location, u
 	Bind();
 	vb.Bind();
 
-	glVertexAttribPointer(location, count, type, GL_FALSE, size, (const void*)m_Offset);
+	glVertexAttribPointer(location, count, type, GL_FALSE, static_cast<GLsizei>(size), (const void*)m_Offset);
 	glEnableVertexAttribArray(location);
 
 	m_Offset += count * VertexBufferElement::GetSizeOfType(type);

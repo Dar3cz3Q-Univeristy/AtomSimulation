@@ -22,11 +22,13 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 
 	// Creating core from particles based on sphere
 
-	CreateCore(sphere.GetIndicies().size());
+	unsigned int indicesSize = static_cast<unsigned int>(sphere.GetIndicies().size());
+
+	CreateCore(indicesSize);
 
 	// Creating moving electrons based on sphere
 
-	CreateElectrons(sphere.GetIndicies().size());
+	CreateElectrons(indicesSize);
 
 	AS_LOG("Atom layer initialized");
 }
@@ -61,10 +63,10 @@ void Atom::OnDraw()
 	{
 		electron->Draw(m_LightShader);
 
-		// Save lights positions and colors to vector
-
 		electronsPosition[counter] = electron->GetPosition();
 		electronsColors[counter] = electron->GetColor();
+
+		counter++;
 	}
 
 	// Update lights positions and colors
@@ -103,7 +105,8 @@ void Atom::CreateCore(unsigned int count)
 
 void Atom::CreateElectrons(unsigned int count)
 {
-	Electron* temp1 = new Electron(glm::vec3(1, 0, 0), .2f, 100.0f, glm::vec3(0, 1, 1), count);
+	// Keep number of electrons up to date in Specification.h and default.frag.shader
+	Electron* temp1 = new Electron(glm::vec3(1, 0, 0), .2f, 100.0f, glm::vec3(0, 1, 1), count, glm::vec3(0, 1, 0));
 	Electron* temp2 = new Electron(glm::vec3(.5, 0, 0), .2f, 30.0f, glm::vec3(0, 1, 1), count);
 	Electron* temp3 = new Electron(glm::vec3(.7, 0, 0), .2f, 20.0f, glm::vec3(1, 0, 1), count);
 
