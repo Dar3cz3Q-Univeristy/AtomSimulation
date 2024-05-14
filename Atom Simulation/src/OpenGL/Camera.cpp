@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Window.h"
 
 Camera::Camera(int width, int height, glm::vec3 position)
 {
@@ -26,6 +27,9 @@ void Camera::UpdateMatrix(float FOVdeg, float nearPlane, float farPlane)
 void Camera::Inputs(GLFWwindow* window)
 {
 	// Obsluga klawiszy
+
+	m_Speed *= Window::GetDeltaTime();
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		m_Position += m_Speed * m_Orientation;
@@ -52,12 +56,13 @@ void Camera::Inputs(GLFWwindow* window)
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
-		m_Speed = 0.4f;
+		m_Speed = 4.0f;
 	}
 	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
 	{
-		m_Speed = 0.1f;
+		m_Speed = 1.0f;
 	}
+
 	// Handles mouse inputs
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{

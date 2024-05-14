@@ -10,7 +10,7 @@ enum ParticleType {
 class Particle
 {
 public:
-	Particle(ParticleType type, const glm::vec3& position, unsigned int count);
+	Particle(ParticleType type, const glm::vec3& position, float scale, unsigned int count);
 	~Particle();
 
 	void Draw(Shader& shader);
@@ -19,6 +19,7 @@ private:
 	ParticleType m_Type;
 	glm::vec3 m_Position;
 	glm::vec3 m_Color;
+	float m_Scale;
 	unsigned int m_Count;
 };
 

@@ -23,6 +23,8 @@ public:
 	~Window();
 
 	void Run();
+
+	static float GetDeltaTime() { return s_DeltaTime; };
 private:
 	GLFWwindow* m_Window;
 	int m_Width;
@@ -30,11 +32,14 @@ private:
 	std::string m_Title;
 	bool m_Running;
 	bool m_Minimized;
-	float m_LastFrameTime;
 	LayerStack m_LayerStack;
 	unsigned int m_Counter;
 	Camera m_Camera;
 	Renderer m_Renderer;
+
+	static float s_LastFrameTime;
+	static float s_DeltaTime;
+	static float s_SumDeltaTime;
 
 	void Init();
 	void Update();
@@ -44,4 +49,3 @@ private:
 };
 
 void WindowResizeCallBack(GLFWwindow* window, int width, int height);
-

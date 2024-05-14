@@ -52,8 +52,6 @@ void Atom::OnDraw()
 	m_LightShader.Bind();
 	m_Camera->Matrix(m_LightShader, "u_VP");
 
-	int electronIndex = 0;
-
 	std::vector<glm::vec3> electronsPosition;
 	electronsPosition.reserve(m_Electrons.size());
 
@@ -96,17 +94,17 @@ void Atom::AddElectron(Electron* electron)
 
 void Atom::CreateCore(unsigned int count)
 {
-	for (int i = 0; i < 5; i++) {
-		Particle* temp = new Particle(PROTON, glm::vec3(1 * i, 0, 0), count);
+	for (int i = 0; i < 1; i++) {
+		Particle* temp = new Particle(PROTON, glm::vec3(1 * i, 0, 0), .3f, count);
 		AddParticle(temp);
 	}
 }
 
 void Atom::CreateElectrons(unsigned int count)
 {
-	Electron* temp1 = new Electron(glm::vec3(1, 0, 0), count, 5.0f, glm::vec3(0, 1, 1), glm::vec3(1, 0, 0));
-	Electron* temp2 = new Electron(glm::vec3(.5, 0, 0), count, 3.0f, glm::vec3(0, 1, 1));
-	Electron* temp3 = new Electron(glm::vec3(.7, 0, 0), count, 2.0f, glm::vec3(1, 0, 1));
+	Electron* temp1 = new Electron(glm::vec3(1, 0, 0), .2f, 100.0f, glm::vec3(0, 1, 1), count);
+	Electron* temp2 = new Electron(glm::vec3(.5, 0, 0), .2f, 30.0f, glm::vec3(0, 1, 1), count);
+	Electron* temp3 = new Electron(glm::vec3(.7, 0, 0), .2f, 20.0f, glm::vec3(1, 0, 1), count);
 
 	AddElectron(temp1);
 	AddElectron(temp2);

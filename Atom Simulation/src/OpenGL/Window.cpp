@@ -4,8 +4,12 @@
 #include "Layers/Example.h"
 #include "Layers/Atom.h"
 
+float Window::s_LastFrameTime = 0.0f;
+float Window::s_DeltaTime = 0.0f;
+float Window::s_SumDeltaTime = 0.0f;
+
 Window::Window(int width, int height, const std::string& title) :
-	m_Window(nullptr), m_Width(width), m_Height(height), m_Title(title), m_Minimized(false), m_Running(false), m_LastFrameTime(0.0f), m_Counter(0)
+	m_Window(nullptr), m_Width(width), m_Height(height), m_Title(title), m_Minimized(false), m_Running(false), m_Counter(0)
 {
     Init();
 
@@ -30,12 +34,12 @@ void Window::Run()
 
     while (m_Running) 
     {
+        float time = static_cast<float>(glfwGetTime());
+        s_DeltaTime = time - s_LastFrameTime;
+        s_SumDeltaTime += s_DeltaTime;
 
         if (!m_Minimized) 
         {
-            float time = static_cast<float>(glfwGetTime());
-            float deltaTime = time - m_LastFrameTime;
-
             m_Renderer.Clear();
             m_Camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
 
@@ -44,24 +48,16 @@ void Window::Run()
                 layer->OnDraw();
             }
 
-#ifdef AS_DELTA_TIME
-            if (deltaTime >= AS_DELTA_TIME) {
-                m_LastFrameTime = time;
-                for (Layer* layer : m_LayerStack) 
-                {
-                    layer->OnUpdate();
-                }
-            }
-#else
             for (Layer* layer : m_LayerStack)
             {
                 layer->OnUpdate();
             }
-#endif
         }
 
         Update();
         Events();
+
+        s_LastFrameTime = time;
     } 
 }
 
@@ -82,11 +78,7 @@ void Window::Init()
 
     glfwMakeContextCurrent(m_Window);
 
-#ifdef AS_DELTA_TIME
     glfwSwapInterval(0);
-#else
-    glfwSwapInterval(1);
-#endif
 
     gladLoadGL();
 
@@ -139,22 +131,18 @@ void Window::PushLayer(Layer* layer)
 
 void Window::Statistics()
 {
-#ifdef AS_DELTA_TIME
-    float time = static_cast<float>(glfwGetTime());
-    float deltaTime = time - m_LastFrameTime;
-
     m_Counter++;
 
-    if (deltaTime >= AS_DELTA_TIME) {
-        float fps = (1.0 / deltaTime) * m_Counter;
-        float ms = (deltaTime / m_Counter) * 1000;
+    if (s_SumDeltaTime >= 1.0f) {
+        float fps = m_Counter;
+        float ms = (s_DeltaTime / m_Counter) * 1000.0f;
 
         std::string newTitle = m_Title + ": " + std::to_string(fps) + " FPS, " + std::to_string(ms) + " ms";
         glfwSetWindowTitle(m_Window, newTitle.c_str());
 
         m_Counter = 0;
+        s_SumDeltaTime = 0;
     }
-#endif
 }
 
 void WindowResizeCallBack(GLFWwindow* window, int width, int height)
