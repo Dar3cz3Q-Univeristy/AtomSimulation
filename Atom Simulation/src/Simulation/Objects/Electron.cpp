@@ -1,8 +1,8 @@
 #include "Electron.h"
 #include "Window.h"
 
-Electron::Electron(const glm::vec3& position, float scale, float angularSpeed, const glm::vec3& rotationAxis, unsigned int count, const glm::vec3& color)
-	: m_Position(position), m_Color(color), m_RotationAxis(rotationAxis), m_Scale(scale), m_AngularSpeed(angularSpeed), m_Count(count) {}
+Electron::Electron(const glm::vec3& position, float scale, float angularSpeed, const glm::vec3& rotationAxis, const glm::vec3& color)
+	: m_Position(position), m_Color(color), m_RotationAxis(rotationAxis), m_Scale(scale), m_AngularSpeed(angularSpeed) {}
 
 Electron::~Electron() {}
 
@@ -21,7 +21,7 @@ void Electron::Draw(Shader& shader)
 
 	shader.SetUniform4f("u_Color", m_Color.r, m_Color.g, m_Color.b, 1.0f);
 
-	GLCall(glDrawElements(GL_TRIANGLES, m_Count, GL_UNSIGNED_INT, nullptr));
+	GLCall(glDrawElements(GL_TRIANGLES, SPHERE_INDICIES_COUNT, GL_UNSIGNED_INT, nullptr));
 }
 
 glm::mat4 Electron::RotateAroundPoint()

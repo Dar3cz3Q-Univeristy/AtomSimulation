@@ -8,4 +8,6 @@ auto constexpr TITLE = "Symulacja atomu";
 //
 // Atom layer
 //
-auto constexpr ELECTRON_COUNT = 3;	// Keep number of electrons up to date in default.frag.shader
+inline unsigned int SPHERE_INDICIES_COUNT = 0;
+auto constexpr MAX_ELECTRON_COUNT = 100;	// Keep number of electrons up to date in default.frag.shader
+auto constexpr ELEMENTS_COUNT = 4;

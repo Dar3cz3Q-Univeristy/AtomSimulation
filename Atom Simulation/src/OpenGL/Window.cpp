@@ -19,7 +19,6 @@ Window::Window(int width, int height, const std::string& title)
     // Push layers on stack
     //
 
-    //PushLayer(new Example(m_Window, &m_Camera));
     PushLayer(new Atom(m_Window, &m_Camera));
 }
 
@@ -79,6 +78,8 @@ void Window::Init()
 
     // Resize event callback
     glfwSetFramebufferSizeCallback(m_Window, WindowResizeCallBack);
+
+    glfwSetInputMode(m_Window, GLFW_STICKY_KEYS, GLFW_TRUE);
 
     GLCall(glEnable(GL_DEPTH_TEST));
     GLCall(glDepthFunc(GL_LESS));
@@ -145,3 +146,4 @@ void WindowResizeCallBack(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
+

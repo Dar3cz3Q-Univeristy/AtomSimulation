@@ -1,7 +1,7 @@
 #include "Particle.h"
 
-Particle::Particle(ParticleType type, const glm::vec3& position, float scale, unsigned int count)
-	: m_Type(type), m_Position(position), m_Scale(scale), m_Count(count)
+Particle::Particle(ParticleType type, const glm::vec3& position, float scale)
+	: m_Type(type), m_Position(position), m_Scale(scale)
 {
 	if (type == PROTON) {
 		m_Color = glm::vec3(0.0f, 0.0f, 1.0f);
@@ -26,6 +26,6 @@ void Particle::Draw(Shader& shader)
 
 	shader.SetUniform4f("u_Color", m_Color.r, m_Color.g, m_Color.b, 1.0f);
 
-	GLCall(glDrawElements(GL_TRIANGLES, m_Count, GL_UNSIGNED_INT, nullptr));
+	GLCall(glDrawElements(GL_TRIANGLES, SPHERE_INDICIES_COUNT, GL_UNSIGNED_INT, nullptr));
 }
 

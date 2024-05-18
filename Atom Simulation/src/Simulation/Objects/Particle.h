@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Renderer.h"
+#include "Specification.h"
+
 #include "glm/gtc/matrix_transform.hpp"
 
 enum ParticleType {
@@ -10,7 +12,7 @@ enum ParticleType {
 class Particle
 {
 public:
-	Particle(ParticleType type, const glm::vec3& position, float scale, unsigned int count);
+	Particle(ParticleType type, const glm::vec3& position, float scale);
 	~Particle();
 
 	void Draw(Shader& shader);
@@ -20,6 +22,5 @@ private:
 	glm::vec3 m_Position;
 	glm::vec3 m_Color;
 	float m_Scale;
-	unsigned int m_Count;
 };
 
