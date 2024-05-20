@@ -9,7 +9,7 @@ float Window::s_DeltaTime = 0.0f;
 float Window::s_SumDeltaTime = 0.0f;
 
 Window::Window(int width, int height, const std::string& title) 
-    : m_Window(nullptr), m_Width(width), m_Height(height), m_Title(title), m_Minimized(false), m_Running(false), m_Counter(0)
+    : m_Window(nullptr), m_Width(width), m_Height(height), m_Title(title), m_Minimized(false), m_Running(false), m_Counter(0), m_PostProcessing(nullptr)
 {
     Init();
 
@@ -20,10 +20,21 @@ Window::Window(int width, int height, const std::string& title)
     //
 
     PushLayer(new Atom(m_Window, &m_Camera));
+
+    //
+    // Create post processing object
+    //
+
+    // We are creating this as heap element because it creates VertexArray before glew is initialized. This causes error.
+    // TODO: Should do it other way
+     m_PostProcessing = new PostProcessing();
 }
 
 Window::~Window()
 {
+    if (m_PostProcessing)
+        delete m_PostProcessing;
+
     glfwTerminate();
 }
 
@@ -40,6 +51,8 @@ void Window::Run()
 
         if (!m_Minimized) 
         {
+            m_PostProcessing->Bind();
+
             m_Renderer.Clear();
             m_Camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
 
@@ -48,6 +61,9 @@ void Window::Run()
                 layer->OnDraw();
                 layer->OnUpdate();
             }
+
+            m_PostProcessing->Unbind();
+            m_PostProcessing->Draw();
         }
 
         Update();

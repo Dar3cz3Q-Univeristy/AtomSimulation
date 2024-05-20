@@ -20,9 +20,6 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 	m_LightShader.Init("res/shaders/light.vert.shader", "res/shaders/light.frag.shader");
 	m_DefaultShader.Init("res/shaders/default.vert.shader", "res/shaders/default.frag.shader");
 
-	//
-	// Creating core from particles based on sphere
-	//
 	SPHERE_INDICIES_COUNT = static_cast<unsigned int>(sphere.GetIndicies().size());
 
 	//
@@ -113,7 +110,8 @@ void Atom::ChangeRenderData()
 
 void Atom::DownloadRenderData()
 {
-	// TODO: Parsing data to render elements. This probably should be better written :)
+	// TODO: This probably should be better written :)
+	// Parsing data to render elements. 
 
 	std::ifstream stream("res/elements/" + m_FileDataPointer[ElementID] + "");
 
@@ -203,7 +201,7 @@ void Atom::DownloadRenderData()
 			currentIndex = line.find("axis_z=") + 7;
 			axis.z = std::stof(line.substr(currentIndex, line.find(" ", currentIndex) - currentIndex));
 
-			// Create particle
+			// Create electron
 			m_Electrons[ElementID].push_back(new Electron(position, scale, angularSpeed, axis));
 
 			continue;

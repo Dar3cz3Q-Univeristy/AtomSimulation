@@ -16,6 +16,8 @@
 #include "LayerStack.h"
 #include "Camera.h"
 
+#include "Objects/PostProcessing.h"
+
 #define AS_DELTA_TIME 1.0/30.0
 
 class Window
@@ -39,6 +41,7 @@ private:
 	unsigned int m_Counter;
 	Camera m_Camera;
 	Renderer m_Renderer;
+	PostProcessing* m_PostProcessing;
 
 	static float s_LastFrameTime;
 	static float s_DeltaTime;
