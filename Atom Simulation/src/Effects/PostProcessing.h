@@ -2,6 +2,7 @@
 
 #include "Renderer.h"
 #include "VertexBufferLayout.h"
+#include "Buffer.h"
 #include "FrameBuffer.h"
 #include "RenderBuffer.h"
 #include "TextureFrameBuffer.h"
@@ -31,6 +32,8 @@ private:
 
 	FrameBuffer m_FB;
 	TextureFrameBuffer m_Texture;
+	TextureFrameBuffer m_BloomTexture;
 	RenderBuffer m_RB;
+	Buffer m_Buffer;
 };
 
