@@ -1,7 +1,7 @@
 #include "PostProcessing.h"
 
 PostProcessing::PostProcessing()
-    : m_Gamma(2.2f)
+    : m_Width(0), m_Height(0), m_Gamma(2.2f)
 {
     float verticies[] = {
         // Coords  // Texture //
@@ -44,6 +44,27 @@ PostProcessing::PostProcessing()
 
 PostProcessing::~PostProcessing() {}
 
+void PostProcessing::Draw() const
+{
+    m_FB.Draw(m_Width, m_Height);
+    Unbind();
+    m_Texture.Bind();
+    m_Renderer.Draw(m_VA, m_IB, m_Shader);
+}
+
+void PostProcessing::Update(int width, int height)
+{
+    if (width == m_Width && height == m_Height)
+        return;
+
+    m_Width = width;
+    m_Height = height;
+
+    m_FB.Bind();
+    m_RB.Update(m_Width, m_Height);
+    m_Texture.Update(m_Width, m_Height);
+}
+
 void PostProcessing::Bind() const
 {
     m_FB.Bind();
@@ -54,12 +75,4 @@ void PostProcessing::Unbind() const
 {
     m_FB.Unbind();
     GLCall(glDisable(GL_DEPTH_TEST));
-}
-
-void PostProcessing::Draw() const
-{
-    m_FB.Draw();
-    Unbind();
-    m_Texture.Bind();
-    m_Renderer.Draw(m_VA, m_IB, m_Shader);
 }

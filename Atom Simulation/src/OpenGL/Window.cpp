@@ -109,6 +109,8 @@ void Window::Update()
 {
     glfwSwapBuffers(m_Window);
     glfwPollEvents();
+    m_PostProcessing->Update(m_Width, m_Height);
+    m_AntiAliasing->Update(m_Width, m_Height);
 
     Statistics();
 }

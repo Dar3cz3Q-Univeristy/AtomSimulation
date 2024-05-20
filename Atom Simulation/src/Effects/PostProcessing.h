@@ -12,10 +12,16 @@ public:
 	PostProcessing();
 	~PostProcessing();
 
+	void Draw() const;
+	void Update(int width, int height);
+
 	void Bind() const;
 	void Unbind() const;
-	void Draw() const;
 private:
+	int m_Width;
+	int m_Height;
+	float m_Gamma;
+
 	Renderer m_Renderer;
 	Shader m_Shader;
 	VertexArray m_VA;
@@ -26,7 +32,5 @@ private:
 	FrameBuffer m_FB;
 	TextureFrameBuffer m_Texture;
 	RenderBuffer m_RB;
-
-	float m_Gamma;
 };
 

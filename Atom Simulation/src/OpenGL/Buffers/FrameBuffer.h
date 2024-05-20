@@ -8,9 +8,10 @@ public:
 	FrameBuffer();
 	~FrameBuffer();
 
+	void Draw(int width, int height) const;
+
 	void Bind() const;
 	void Unbind() const;
-	void Draw() const;
 private:
 	unsigned int m_RendererID;
 };

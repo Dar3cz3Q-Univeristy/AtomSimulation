@@ -2,12 +2,28 @@
 
 RenderBuffer::RenderBuffer()
 {
-	GLCall(glGenRenderbuffers(1, &m_RendererID));
+	Create();
 }
 
 RenderBuffer::~RenderBuffer()
 {
+	Destroy();
+}
+
+void RenderBuffer::Create()
+{
+	GLCall(glGenRenderbuffers(1, &m_RendererID));
+}
+
+void RenderBuffer::Destroy()
+{
 	GLCall(glDeleteRenderbuffers(1, &m_RendererID));
+}
+
+void RenderBuffer::Init(int width, int height)
+{
+	GLCall(glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height));
+	GLCall(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RendererID));
 }
 
 void RenderBuffer::Bind() const
@@ -20,8 +36,10 @@ void RenderBuffer::Unbind() const
 	GLCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 }
 
-void RenderBuffer::Init()
+void RenderBuffer::Update(int width, int height)
 {
-	GLCall(glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, WIDTH, HEIGHT));
-	GLCall(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RendererID));
+	Destroy();
+	Create();
+	Bind();
+	Init(width, height);
 }

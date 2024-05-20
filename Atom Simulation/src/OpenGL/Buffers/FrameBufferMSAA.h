@@ -8,10 +8,10 @@ public:
 	FrameBufferMSAA();
 	~FrameBufferMSAA();
 
+	void Read() const;
+
 	void Bind() const;
 	void Unbind() const;
-	void Read() const;
 private:
 	unsigned int m_RendererID;
 };
-

@@ -1,7 +1,7 @@
 #include "AntiAliasing.h"
 
 AntiAliasing::AntiAliasing(unsigned int samples) 
-	: m_Samples(samples)
+	: m_Width(0), m_Height(0), m_Samples(samples)
 {
 	GLCall(glEnable(GL_MULTISAMPLE));
 
@@ -15,6 +15,24 @@ AntiAliasing::AntiAliasing(unsigned int samples)
 
 AntiAliasing::~AntiAliasing() {}
 
+void AntiAliasing::Read() const
+{
+	m_FB.Read();
+}
+
+void AntiAliasing::Update(int width, int height)
+{
+	if (width == m_Width && height == m_Height)
+		return;
+
+	m_Width = width;
+	m_Height = height;
+
+	m_FB.Bind();
+	m_RB.Update(m_Width, m_Height);
+	m_Texture.Update(m_Width, m_Height);
+}
+
 void AntiAliasing::Bind() const
 {
 	m_FB.Bind();
@@ -23,9 +41,4 @@ void AntiAliasing::Bind() const
 void AntiAliasing::Unbind() const
 {
 	m_FB.Unbind();
-}
-
-void AntiAliasing::Read() const
-{
-	m_FB.Read();
 }

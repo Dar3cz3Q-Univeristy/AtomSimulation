@@ -5,7 +5,7 @@
 class Electron
 {
 public:
-	Electron(const glm::vec3& position, float scale, float angularSpeed, const glm::vec3& rotationAxis, const glm::vec3& color = glm::vec3(1.0f));
+	Electron(const glm::vec3& position, float scale, float angularSpeed, const glm::vec3& rotationAxis, const glm::vec3& color = glm::vec3(100.0f));
 	Electron& operator=(const Electron& electron) = delete;
 	~Electron();
 

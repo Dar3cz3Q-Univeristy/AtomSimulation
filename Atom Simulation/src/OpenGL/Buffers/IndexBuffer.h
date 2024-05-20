@@ -9,6 +9,7 @@ public:
 
 	void Init(const unsigned int* data, unsigned int count);
 	void Init(const std::vector<unsigned int>& data);
+
 	void Bind() const;
 	void Unbind() const;
 
