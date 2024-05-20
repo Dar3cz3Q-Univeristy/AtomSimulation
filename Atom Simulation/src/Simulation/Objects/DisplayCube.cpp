@@ -2,8 +2,8 @@
 
 DisplayCube::DisplayCube() 
 {
-	m_Position = glm::vec3(0.0f, 2.0f, 0.0f);
-	m_Scale = 1.0f;
+	m_Position = glm::vec3(0.0f, 2.5f, 0.0f);
+	m_Scale = 0.7f;
 }
 
 DisplayCube::~DisplayCube() {}

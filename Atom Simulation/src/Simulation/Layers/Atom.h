@@ -28,7 +28,6 @@ public:
 	VertexArray m_CubeVA;
 	VertexBuffer m_CubeVB;
 	IndexBuffer m_CubeIB;
-	TextureCubeMap m_CubeTexture;
 	DisplayCube m_Cube;
 
 	//Sphere
@@ -40,6 +39,7 @@ public:
 	std::unordered_map<int, std::string> m_FileDataPointer;
 	std::unordered_map<int, std::vector<Particle*>> m_Particles;
 	std::unordered_map<int, std::vector<Electron*>> m_Electrons;
+	std::unordered_map<int, Texture2D> m_CubeTextures;
 
 	void OnChange();
 	void ChangeRenderData();

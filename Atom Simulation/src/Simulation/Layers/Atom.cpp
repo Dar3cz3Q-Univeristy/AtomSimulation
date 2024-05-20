@@ -35,16 +35,19 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 
 	m_CubeVB.Init(cube.GetVerticies());
 
-	m_CubeVA.LinkAttribute(m_CubeVB, 0, 3, GL_FLOAT, sizeof(Vertex));
+	m_CubeVA.LinkAttribute(m_CubeVB, 0, 3, GL_FLOAT, sizeof(Vertex));		// Position
+
+#if 1
+	m_CubeVA.LinkAttribute(m_CubeVB, 1, 2, GL_FLOAT, sizeof(Vertex), 9);	// texCoords
+	m_CubeShader.Init("res/shaders/cube_texture.vert.shader", "res/shaders/cube_texture.frag.shader");
+#else
+	m_CubeVA.LinkAttribute(m_CubeVB, 1, 3, GL_FLOAT, sizeof(Vertex), 6);	// Colors
+	m_CubeShader.Init("res/shaders/cube_default.vert.shader", "res/shaders/cube_default.frag.shader");
+#endif
 
 	m_CubeIB.Init(cube.GetIndicies());
 
-	m_CubeShader.Init("res/shaders/cube_texture.vert.shader", "res/shaders/cube_texture.frag.shader");
 	m_CubeShader.Bind();
-
-	// TODO: Change texture
-	m_CubeTexture.Init("res/textures/rubiks", "png");
-	m_CubeTexture.Bind();
 
 	m_CubeShader.SetUniform1i("u_Texture", 0);
 
@@ -118,6 +121,7 @@ void Atom::OnDraw()
 		particle->Draw(m_ParticleShader);
 
 	// Draw Cube
+	m_CubeTextures[ElementID].Bind();
 	m_CubeVA.Bind();
 	m_CubeIB.Bind();
 	m_Cube.Draw(m_CubeShader);
@@ -246,6 +250,8 @@ void Atom::DownloadRenderData()
 			continue;
 		}
 	}
+
+	m_CubeTextures[ElementID].Init("res/textures/elements/" + tempTexture + "");
 
 	stream.close();
 }

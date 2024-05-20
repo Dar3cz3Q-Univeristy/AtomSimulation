@@ -2,40 +2,57 @@
 
 Cube::Cube()
 {
-	m_Vertices.reserve(8);
+	m_Vertices.reserve(4 * 4);
 	m_Vertices =
 	{
-		Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f), glm::vec2(0.0f)),       // lower left near 0
-		Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),        // lower right near 1
-		Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),      // lower left far 2
-		Vertex(glm::vec3(0.5f,  -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f), glm::vec2(0.0f)),      // lower right far 3
-		Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.98f, 0.72f, 0.01f), glm::vec3(0.0f), glm::vec2(0.0f)),     // upper left near 4
-		Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.94f, 0.01f, 0.98f), glm::vec3(0.0f), glm::vec2(0.0f)),      // upper right near 5
-		Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0.01f, 0.98f, 0.98f), glm::vec3(0.0f), glm::vec2(0.0f)),    // upper left far 6
-		Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.58f, 0.01f, 0.98f), glm::vec3(0.0f), glm::vec2(0.0f))      // upper right far 7
+		//             Positions             //    Normals     //     Colors     //           UV           //
+		
+		// Front square
+		Vertex(glm::vec3(-0.5f, -0.5f, 0.5f),  glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(0.0f, 0.0f)),     // lower left 0    #0
+		Vertex(glm::vec3(0.5f, -0.5f, 0.5f),   glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(1.0f, 0.0f)),     // lower right 1   #1
+		Vertex(glm::vec3(-0.5f, 0.5f, 0.5f),   glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(0.0f, 1.0f)),     // upper left 4    #2
+		Vertex(glm::vec3(0.5f, 0.5f, 0.5f),    glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(1.0f, 1.0f)),     // upper right 5   #3
+
+		// Right square
+		Vertex(glm::vec3(0.5f, -0.5f, 0.5f),   glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(0.0f, 0.0f)),     // lower left 1    #4
+		Vertex(glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(1.0f, 0.0f)),     // lower right 3   #5
+		Vertex(glm::vec3(0.5f, 0.5f, 0.5f),    glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(0.0f, 1.0f)),     // upper left 5    #6
+		Vertex(glm::vec3(0.5f, 0.5f, -0.5f),   glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(1.0f, 1.0f)),     // upper right 7   #7
+
+		// Back square
+		Vertex(glm::vec3(0.5f, -0.5f, -0.5f),  glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(0.0f, 0.0f)),     // lower left 3    #8
+		Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(1.0f, 0.0f)),     // lower right 2   #9
+		Vertex(glm::vec3(0.5f, 0.5f, -0.5f),   glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(0.0f, 1.0f)),     // upper left 7    #10
+		Vertex(glm::vec3(-0.5f, 0.5f, -0.5f),  glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(1.0f, 1.0f)),     // upper right 6   #11
+
+		// Left square
+		Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(0.0f, 0.0f)),     // lower left 2    #12
+		Vertex(glm::vec3(-0.5f, -0.5f, 0.5f),  glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(1.0f, 0.0f)),     // lower right 0   #13
+		Vertex(glm::vec3(-0.5f, 0.5f, -0.5f),  glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(0.0f, 1.0f)),     // upper left 6    #14
+		Vertex(glm::vec3(-0.5f, 0.5f, 0.5f),   glm::vec3(0.0f),  glm::vec3(1.0f),  glm::vec2(1.0f, 1.0f))      // upper right 4   #15
 	};
 
 	m_Indices.reserve(2 * 3 * 6);
 	m_Indices =
 	{
-		// bottom square
+		// Front square
 		0, 1, 2,
-		2, 1, 3,
-		// near square
-		0, 4, 5,
-		0, 1, 5,
-		// left square
-		0, 2, 4,
-		2, 4, 6,
-		// far square
-		2, 6, 3,
-		3, 6, 7,
-		// right square
-		1, 3, 7,
-		1, 5, 7,
-		// top square
+		1, 2, 3,
+		// Right square
 		4, 5, 6,
-		5, 6, 7
+		5, 6, 7,
+		// Back square
+		8, 9, 10,
+		9, 10, 11,
+		// Left square
+		12, 13, 14,
+		13, 14, 15,
+		// Top square
+		2, 3, 10,
+		2, 10, 11,
+		// Bottom square
+		0, 1, 8,
+		0, 8, 9
 	};
 }
 

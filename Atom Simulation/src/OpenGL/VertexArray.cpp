@@ -43,6 +43,17 @@ void VertexArray::LinkAttribute(const VertexBuffer& vb, unsigned int location, u
 	vb.Unbind();
 }
 
+void VertexArray::LinkAttribute(const VertexBuffer& vb, unsigned int location, unsigned int count, GLenum type, size_t size, size_t stride)
+{
+	Bind();
+	vb.Bind();
+
+	glVertexAttribPointer(location, count, type, GL_FALSE, static_cast<GLsizei>(size), (const void*)(stride * VertexBufferElement::GetSizeOfType(type)));
+	glEnableVertexAttribArray(location);
+
+	vb.Unbind();
+}
+
 void VertexArray::Bind() const
 {
 	GLCall(glBindVertexArray(m_RendererID));
