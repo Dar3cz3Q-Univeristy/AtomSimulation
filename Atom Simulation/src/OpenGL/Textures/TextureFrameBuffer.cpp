@@ -22,13 +22,14 @@ void TextureFrameBuffer::Destroy()
 
 void TextureFrameBuffer::Init(int attachment, int width, int height)
 {
+	m_Attachment = attachment;
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 	GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL));
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-	GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachment, GL_TEXTURE_2D, m_RendererID, 0));
+	GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + m_Attachment, GL_TEXTURE_2D, m_RendererID, 0));
 }
 
 void TextureFrameBuffer::Update(int width, int height)
@@ -36,7 +37,7 @@ void TextureFrameBuffer::Update(int width, int height)
 	Destroy();
 	Create();
 	Bind();
-	Init(width, height);
+	Init(m_Attachment, width, height);
 }
 
 void TextureFrameBuffer::Bind(unsigned int slot) const

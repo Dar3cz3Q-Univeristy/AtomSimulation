@@ -31,11 +31,11 @@ PostProcessing::PostProcessing()
     m_FB.Bind();
 
     m_Texture.Init();
-    m_BloomTexture.Init(1);
+    //m_BloomTexture.Init(1);
 
-    m_Buffer.Push(GL_COLOR_ATTACHMENT0);
-    m_Buffer.Push(GL_COLOR_ATTACHMENT1);
-    m_Buffer.Draw();
+    //m_Buffer.Push(GL_COLOR_ATTACHMENT0);
+    //m_Buffer.Push(GL_COLOR_ATTACHMENT1);
+    //m_Buffer.Draw();
 
     m_RB.Bind();
     m_RB.Init();

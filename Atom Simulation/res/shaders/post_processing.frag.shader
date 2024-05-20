@@ -26,6 +26,7 @@ void main()
 	vec4 reverseColor = reverseColors(fragmentColor);
 	
 	color = hdr(fragmentColor);
+	// color = detectEdges();
 }
 
 vec4 reverseColors(vec4 color) 

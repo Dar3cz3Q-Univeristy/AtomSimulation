@@ -20,5 +20,6 @@ private:
 	void Create();
 	void Destroy();
 	unsigned int m_RendererID;
+	unsigned int m_Attachment;
 };
 

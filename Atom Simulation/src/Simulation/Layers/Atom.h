@@ -8,6 +8,7 @@
 
 #include "Objects/Particle.h"
 #include "Objects/Electron.h"
+#include "Objects/DisplayCube.h"
 
 class Atom : public Layer
 {
@@ -21,23 +22,21 @@ public:
 	GLFWwindow* m_Window;
 	Camera* m_Camera;
 	Shader m_LightShader;
-	Shader m_DefaultShader;
-	Shader m_DefaultCubeShader; // cube
-	VertexArray m_VA;
-	VertexBuffer m_VB;
-	VertexArray m_cube_VA; // cube
-	VertexBuffer m_cube_VB; // cube
-	VertexBufferLayout m_Layout;
-	IndexBuffer m_IB;
-	IndexBuffer m_cube_IB; // cube
-	//TextureCubeMap m_Texture;
-	//Texture2D m_CubeTexture; // cube
-	TextureCubeMap m_CubeTexture; // cube
-	Renderer m_Renderer;
-	Renderer m_CubeRenderer; // cube
 
-	//std::vector<Particle*> m_Particles;
-	//std::vector<Electron*> m_Electrons;
+	// Cube
+	Shader m_CubeShader;
+	VertexArray m_CubeVA;
+	VertexBuffer m_CubeVB;
+	IndexBuffer m_CubeIB;
+	TextureCubeMap m_CubeTexture;
+	DisplayCube m_Cube;
+
+	//Sphere
+	Shader m_ParticleShader;
+	VertexArray m_SphereVA;
+	VertexBuffer m_SphereVB;
+	IndexBuffer m_SphereIB;
+
 	std::unordered_map<int, std::string> m_FileDataPointer;
 	std::unordered_map<int, std::vector<Particle*>> m_Particles;
 	std::unordered_map<int, std::vector<Electron*>> m_Electrons;
