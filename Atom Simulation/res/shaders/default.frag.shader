@@ -13,7 +13,10 @@ uniform int u_ElectronCount;
 uniform vec3 u_MultipleLightPos[MAX_ELECTRON_COUNT];
 uniform vec3 u_MultipleLightColor[MAX_ELECTRON_COUNT];
 
+uniform sampler2D u_Texture;
+
 void main() 
 {
+	//color = texture(u_Texture, v_TexCoord);
 	color = v_Color;
 };

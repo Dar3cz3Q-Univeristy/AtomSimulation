@@ -7,6 +7,42 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 	m_Window = window;
 	m_Camera = camera;
 
+
+	Vertex verticies[] =
+	{
+		Vertex(glm::vec3(-0.5f, 2.0f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f), glm::vec2(0.0f)),       // lower left near 0
+		Vertex(glm::vec3(0.5f, 2.0f, 0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),        // lower right near 1
+		Vertex(glm::vec3(-0.5f, 2.0f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),      // lower left far 2
+		Vertex(glm::vec3(0.5f,  2.0f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f), glm::vec2(0.0f)),      // lower right far 3
+		Vertex(glm::vec3(-0.5f, 3.0f, 0.5f), glm::vec3(0.98f, 0.72f, 0.01f), glm::vec3(0.0f), glm::vec2(0.0f)),     // upper left near 4
+		Vertex(glm::vec3(0.5f, 3.0f, 0.5f), glm::vec3(0.94f, 0.01f, 0.98f), glm::vec3(0.0f), glm::vec2(0.0f)),      // upper right near 5
+		Vertex(glm::vec3(-0.5f, 3.0f, -0.5f), glm::vec3(0.01f, 0.98f, 0.98f), glm::vec3(0.0f), glm::vec2(0.0f)),    // upper left far 6
+		Vertex(glm::vec3(0.5f, 3.0f, -0.5f), glm::vec3(0.58f, 0.01f, 0.98f), glm::vec3(0.0f), glm::vec2(0.0f))      // upper right far 7
+	};
+
+	unsigned int indices[] =
+	{
+		// bottom square
+		0, 1, 2,
+		2, 1, 3,
+		// near square
+		0, 4, 5,
+		0, 1, 5,
+		// left square
+		0, 2, 4,
+		2, 4, 6,
+		// far square
+		2, 6, 3,
+		3, 6, 7,
+		// right square
+		1, 3, 7,
+		1, 5, 7,
+		// top square
+		4, 5, 6,
+		5, 6, 7
+	};
+
+
 	Sphere sphere(0.5f, 64, 64);
 
 	m_VB.Init(sphere.GetVerticies());
@@ -20,6 +56,27 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 	m_LightShader.Init("res/shaders/light.vert.shader", "res/shaders/light.frag.shader");
 	m_DefaultShader.Init("res/shaders/default.vert.shader", "res/shaders/default.frag.shader");
 
+	// Cube
+
+	m_cube_VA.Bind();
+
+	m_cube_VB.Init(verticies, sizeof(verticies));
+	//m_cube_VB.Bind();
+	m_cube_IB.Init(indices, sizeof(indices));
+
+	m_cube_VA.LinkAttribute(m_cube_VB, 0, 3, GL_FLOAT, sizeof(Vertex));
+
+	//m_DefaultCubeShader.Init("res/shaders/cube_default.vert.shader", "res/shaders/cube_default.frag.shader");
+	m_DefaultCubeShader.Init("res/shaders/cube_texture.vert.shader", "res/shaders/cube_texture.frag.shader");
+	m_DefaultCubeShader.Bind();
+
+	//m_CubeTexture.Init("res/textures/rubiks/back.png");
+	m_CubeTexture.Init("res/textures/rubiks", "png");
+	m_CubeTexture.Bind();
+
+	m_DefaultCubeShader.SetUniform1i("u_Texture", 0);
+
+	// Creating core from particles based on sphere
 	SPHERE_INDICIES_COUNT = static_cast<unsigned int>(sphere.GetIndicies().size());
 
 	//
@@ -82,6 +139,14 @@ void Atom::OnDraw()
 	// Draw Core
 	for (auto& particle : m_Particles[ElementID])
 		particle->Draw(m_DefaultShader);
+
+	// Draw Cube
+	m_DefaultCubeShader.Bind();
+	//m_CubeTexture.Bind();
+
+	m_Camera->Matrix(m_DefaultCubeShader, "u_MVP");
+
+	m_Renderer.Draw(m_cube_VA, m_cube_IB, m_DefaultCubeShader);
 
 	// Check if ElementID has changed
 	OnChange();
