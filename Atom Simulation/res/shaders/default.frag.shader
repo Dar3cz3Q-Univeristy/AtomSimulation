@@ -12,7 +12,10 @@ const int ELECTRON_COUNT = 3;	// Keep number of electrons up to date in Specific
 uniform vec3 u_MultipleLightPos[ELECTRON_COUNT];
 uniform vec3 u_MultipleLightColor[ELECTRON_COUNT];
 
+uniform sampler2D u_Texture;
+
 void main() 
 {
+	//color = texture(u_Texture, v_TexCoord);
 	color = v_Color;
 };

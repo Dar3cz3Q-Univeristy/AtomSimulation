@@ -58,7 +58,7 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 
 	// Cube
 
-	//m_cube_VA.Bind();
+	m_cube_VA.Bind();
 
 	m_cube_VB.Init(verticies, sizeof(verticies));
 	//m_cube_VB.Bind();
