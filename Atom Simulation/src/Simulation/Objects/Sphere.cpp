@@ -7,16 +7,16 @@ Sphere::Sphere(float radius, unsigned int rings, unsigned int sectors)
 {
     float const R = 1.0f / (float)(rings - 1);
     float const S = 1.0f / (float)(sectors - 1);
-    unsigned int r, s;
+    unsigned int r{}, s{};
 
     m_Vertices.resize(rings * sectors);
 
     std::vector<Vertex>::iterator v = m_Vertices.begin();
 
     for (r = 0; r < rings; r++) for (s = 0; s < sectors; s++) {
-        float const y = sin(-M_PI_2 + M_PI * r * R);
-        float const x = cos(2.0f * M_PI * s * S) * sin(M_PI * r * R);
-        float const z = sin(2.0f * M_PI * s * S) * sin(M_PI * r * R);
+        float const y = sin(-static_cast<float>(M_PI_2) + static_cast<float>(M_PI) * r * R);
+        float const x = cos(2.0f * static_cast<float>(M_PI) * s * S) * sin(static_cast<float>(M_PI) * r * R);
+        float const z = sin(2.0f * static_cast<float>(M_PI) * s * S) * sin(static_cast<float>(M_PI) * r * R);
 
         (*v).Position.x = x * radius;
         (*v).Position.y = y * radius;

@@ -7,10 +7,11 @@ in vec4 v_Color;
 in vec2 v_TexCoord;
 in vec3 v_Normals;
 
-const int ELECTRON_COUNT = 3;	// Keep number of electrons up to date in Specification.h
+const int MAX_ELECTRON_COUNT = 100;	// Keep number of electrons up to date in Specification.h
 
-uniform vec3 u_MultipleLightPos[ELECTRON_COUNT];
-uniform vec3 u_MultipleLightColor[ELECTRON_COUNT];
+uniform int u_ElectronCount;
+uniform vec3 u_MultipleLightPos[MAX_ELECTRON_COUNT];
+uniform vec3 u_MultipleLightColor[MAX_ELECTRON_COUNT];
 
 uniform sampler2D u_Texture;
 

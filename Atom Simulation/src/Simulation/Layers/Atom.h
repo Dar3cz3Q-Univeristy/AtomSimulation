@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <unordered_map>
 
 #include "Layer.h"
 #include "Specification.h"
@@ -16,7 +17,7 @@ public:
 
 	void OnDraw() override;
 	void OnUpdate() override;
-private:
+ private:
 	GLFWwindow* m_Window;
 	Camera* m_Camera;
 	Shader m_LightShader;
@@ -35,12 +36,18 @@ private:
 	Renderer m_Renderer;
 	Renderer m_CubeRenderer; // cube
 
-	std::vector<Particle*> m_Particles;
-	std::vector<Electron*> m_Electrons;
+	//std::vector<Particle*> m_Particles;
+	//std::vector<Electron*> m_Electrons;
+	std::unordered_map<int, std::string> m_FileDataPointer;
+	std::unordered_map<int, std::vector<Particle*>> m_Particles;
+	std::unordered_map<int, std::vector<Electron*>> m_Electrons;
 
-	void AddParticle(Particle* particle);
-	void AddElectron(Electron* electron);
-	void CreateCore(unsigned int count);
-	void CreateElectrons(unsigned int count);
+	void OnChange();
+	void ChangeRenderData();
+	void DownloadRenderData();
 };
+
+static int ElementID = 0;
+
+void ChangeElement(GLFWwindow* window, int key, int scancode, int action, int mods);
 

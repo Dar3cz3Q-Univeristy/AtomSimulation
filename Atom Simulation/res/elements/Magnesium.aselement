@@ -1,0 +1,5 @@
+#texture=Magnez.jpg
+#particles
+type=NEUTRON x=0 y=0 z=0 scale=.1
+#electrons
+x=1 y=1 z=1 scale=.1 speed=5 axis_x=0 axis_y=1 axis_z=0
