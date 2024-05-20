@@ -26,5 +26,7 @@ private:
 	FrameBuffer m_FB;
 	TextureFrameBuffer m_Texture;
 	RenderBuffer m_RB;
+
+	float m_Gamma;
 };
 

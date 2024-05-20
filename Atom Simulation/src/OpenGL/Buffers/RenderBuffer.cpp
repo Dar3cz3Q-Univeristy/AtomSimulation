@@ -20,7 +20,7 @@ void RenderBuffer::Unbind() const
 	GLCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 }
 
-void RenderBuffer::Init() const
+void RenderBuffer::Init()
 {
 	GLCall(glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, WIDTH, HEIGHT));
 	GLCall(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RendererID));

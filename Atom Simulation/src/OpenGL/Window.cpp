@@ -21,19 +21,18 @@ Window::Window(int width, int height, const std::string& title)
 
     PushLayer(new Atom(m_Window, &m_Camera));
 
-    //
-    // Create post processing object
-    //
-
-    // We are creating this as heap element because it creates VertexArray before glew is initialized. This causes error.
-    // TODO: Should do it other way
-     m_PostProcessing = new PostProcessing();
+    // TODO: Should do it other way than alocating it on heap
+    m_AntiAliasing = new AntiAliasing(8);
+    m_PostProcessing = new PostProcessing();
 }
 
 Window::~Window()
 {
     if (m_PostProcessing)
         delete m_PostProcessing;
+
+    if (m_AntiAliasing)
+        delete m_AntiAliasing;
 
     glfwTerminate();
 }
@@ -51,7 +50,7 @@ void Window::Run()
 
         if (!m_Minimized) 
         {
-            m_PostProcessing->Bind();
+            m_AntiAliasing->Bind();
 
             m_Renderer.Clear();
             m_Camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
@@ -62,7 +61,7 @@ void Window::Run()
                 layer->OnUpdate();
             }
 
-            m_PostProcessing->Unbind();
+            m_AntiAliasing->Read();
             m_PostProcessing->Draw();
         }
 
@@ -99,8 +98,8 @@ void Window::Init()
 
     GLCall(glEnable(GL_DEPTH_TEST));
     GLCall(glDepthFunc(GL_LESS));
-    GLCall(glEnable(GL_BLEND));
-    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    //GLCall(glEnable(GL_BLEND));
+    //GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
     AS_LOG("Window initialized");
     AS_LOG(glGetString(GL_VERSION));

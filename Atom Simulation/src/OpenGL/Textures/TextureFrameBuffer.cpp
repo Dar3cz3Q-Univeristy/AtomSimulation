@@ -12,6 +12,7 @@ TextureFrameBuffer::~TextureFrameBuffer()
 
 void TextureFrameBuffer::Bind(unsigned int slot) const
 {
+	GLCall(glActiveTexture(GL_TEXTURE0 + slot));
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 }
 
@@ -20,8 +21,9 @@ void TextureFrameBuffer::Unbind() const
 	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
-void TextureFrameBuffer::Init() const
+void TextureFrameBuffer::Init()
 {
+	GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 	GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL));
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));

@@ -28,7 +28,10 @@ project "Atom Simulation"
 		"src",
 		"src/vendor",
 		"src/Simulation",
+		"src/Effects",
 		"src/OpenGL",
+		"src/OpenGL/Textures",
+		"src/OpenGL/Buffers",
 		"src/Utils",
 		"Dependencies/glad/include",
 		"Dependencies/GLFW/include"
