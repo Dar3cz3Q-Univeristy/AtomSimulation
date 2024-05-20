@@ -21,12 +21,19 @@ private:
 	Camera* m_Camera;
 	Shader m_LightShader;
 	Shader m_DefaultShader;
+	Shader m_DefaultCubeShader; // cube
 	VertexArray m_VA;
 	VertexBuffer m_VB;
+	VertexArray m_cube_VA; // cube
+	VertexBuffer m_cube_VB; // cube
 	VertexBufferLayout m_Layout;
 	IndexBuffer m_IB;
-	TextureCubeMap m_Texture;
+	IndexBuffer m_cube_IB; // cube
+	//TextureCubeMap m_Texture;
+	//Texture2D m_CubeTexture; // cube
+	TextureCubeMap m_CubeTexture; // cube
 	Renderer m_Renderer;
+	Renderer m_CubeRenderer; // cube
 
 	std::vector<Particle*> m_Particles;
 	std::vector<Electron*> m_Electrons;

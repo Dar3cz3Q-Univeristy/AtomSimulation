@@ -13,7 +13,7 @@ Window::Window(int width, int height, const std::string& title)
 {
     Init();
 
-    m_Camera = Camera(m_Width, m_Height, glm::vec3(0.0f, 0.0f, 4.0f));
+    m_Camera = Camera(m_Width, m_Height, glm::vec3(0.0f, 0.8f, 6.0f));
 
     //
     // Push layers on stack
