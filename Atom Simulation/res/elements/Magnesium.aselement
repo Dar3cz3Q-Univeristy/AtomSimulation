@@ -1,5 +1,6 @@
 #texture=Magnesium.png
 #particles
-type=NEUTRON x=0 y=0 z=0 scale=.1
+type=NEUTRON x=0 y=0 z=0 scale=1
 #electrons
-x=1 y=1 z=1 scale=.1 speed=5 axis_x=0 axis_y=1 axis_z=0
+x=-.7 y=-.7 z=-.7 scale=.5 speed=25 axis_x=0 axis_y=1 axis_z=0
+x=.7 y=.7 z=.7 scale=.5 speed=25 axis_x=0 axis_y=1 axis_z=0

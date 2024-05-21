@@ -16,6 +16,7 @@ public:
 	Camera();
 	Camera(int width, int height, glm::vec3 position);
 	void Matrix(Shader& shader, const std::string& uniform) const;
+	void Position(Shader& shader, const std::string& uniform) const;
 	void UpdateMatrix(float FOVdeg, float nearPlane, float farPlane);
 	void Inputs(GLFWwindow* window);
 	void UpdateWidth(int width) { m_Width = width; };

@@ -2,4 +2,4 @@
 #particles
 type=NEUTRON x=0 y=0 z=0 scale=.5
 #electrons
-x=-1 y=0 z=.5 scale=.1 speed=50 axis_x=0 axis_y=1 axis_z=0
+x=.2 y=.2 z=.2 scale=.1 speed=50 axis_x=0 axis_y=1 axis_z=0

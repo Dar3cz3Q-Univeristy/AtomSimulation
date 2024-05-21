@@ -3,12 +3,16 @@
 
 Camera::Camera() : m_Width(0), m_Height(0), m_Position({}) {}
 
-Camera::Camera(int width, int height, glm::vec3 position)
-	: m_Width(width), m_Height(height), m_Position(position) {}
+Camera::Camera(int width, int height, glm::vec3 position) : m_Width(width), m_Height(height), m_Position(position) {}
 
 void Camera::Matrix(Shader& shader, const std::string& uniform) const
 {
 	shader.SetUniformMat4f(uniform, m_CameraMatrix);
+}
+
+void Camera::Position(Shader& shader, const std::string& uniform) const
+{
+	shader.SetUniform3f(uniform, m_Position.x, m_Position.y, m_Position.z);
 }
 
 void Camera::UpdateMatrix(float FOVdeg, float nearPlane, float farPlane)
