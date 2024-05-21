@@ -1,7 +1,7 @@
 #include "PostProcessing.h"
 
 PostProcessing::PostProcessing()
-    : m_Width(0), m_Height(0), m_Gamma(2.2f)
+    : m_Width(WIDTH), m_Height(HEIGHT), m_Gamma(GAMMA_CORRECTION_LEVEL), m_Amount(8)
 {
     float verticies[] = {
         // Coords  // Texture //
@@ -31,7 +31,7 @@ PostProcessing::PostProcessing()
     m_FB.Bind();
 
     m_Texture.Init();
-
+    
     m_RB.Bind();
     m_RB.Init();
 
@@ -40,16 +40,84 @@ PostProcessing::PostProcessing()
 
     m_Shader.SetUniform1i("u_ScreenTexture", 0);
     m_Shader.SetUniform1f("u_Gamma", m_Gamma);
+
+    m_Shader.SetUniform2f("u_ScreenDimension", m_Width, m_Height);
+
+    //
+    // Bloom effect
+    //
+
+    /*m_BloomTexture.Init(1);
+
+    m_Buffer.Push(GL_COLOR_ATTACHMENT0);
+    m_Buffer.Push(GL_COLOR_ATTACHMENT1);
+    m_Buffer.Draw();
+
+    m_BlurShader.Init("res/shaders/post_processing.vert.shader", "res/shaders/blur.frag.shader");
+    m_BlurShader.Bind();
+
+    m_BlurShader.SetUniform1i("u_ScreenTexture", 0);
+    m_BlurShader.SetUniform1i("u_BloomTexture", 1);
+
+    m_PingPongTexture[0].Init();
+    m_PingPongTexture[1].Init();*/
 }
 
 PostProcessing::~PostProcessing() {}
 
-void PostProcessing::Draw() const
+void PostProcessing::Draw()
 {
+#if 0
+    //m_FB.Draw(m_Width, m_Height);
+
+    bool horizontal = true, firstIteration = true;
+
+    m_BlurShader.Bind();
+    for (unsigned int i = 0; i < m_Amount; i++)
+    {
+        m_PingPongBuffer[horizontal].Bind();
+        m_BlurShader.SetUniform1i("u_Horizontal", horizontal);
+
+        if (firstIteration)
+        {
+            m_BloomTexture.Bind();
+            firstIteration = false;
+        }
+        else
+        {
+            m_PingPongTexture[!horizontal].Bind();
+        }
+
+        //Unbind();
+        //m_Renderer.Draw(m_VA, m_IB, m_Shader);
+        //Bind();
+
+        m_VA.Bind();
+        glDisable(GL_DEPTH_TEST);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        horizontal = !horizontal;
+    }
+
+    Unbind();
+    m_Shader.Bind();
+    m_VA.Bind();
+    glDisable(GL_DEPTH_TEST);
+    
+    m_Texture.Bind();
+    m_PingPongTexture[!horizontal].Bind(1);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    //m_Renderer.Draw(m_VA, m_IB, m_Shader);
+
+    //m_Texture.Bind();
+    //m_PingPongTexture[!horizontal].Bind();
+#else
     m_FB.Draw(m_Width, m_Height);
     Unbind();
     m_Texture.Bind();
+    m_BloomTexture.Bind(1);
     m_Renderer.Draw(m_VA, m_IB, m_Shader);
+#endif
 }
 
 void PostProcessing::Update(int width, int height)
@@ -57,12 +125,18 @@ void PostProcessing::Update(int width, int height)
     if (width == m_Width && height == m_Height)
         return;
 
+    if (width == 0 || height == 0)
+       return;
+
     m_Width = width;
     m_Height = height;
 
     m_FB.Bind();
     m_RB.Update(m_Width, m_Height);
     m_Texture.Update(m_Width, m_Height);
+
+    m_Shader.Bind();
+    m_Shader.SetUniform2f("u_ScreenDimension", m_Width, m_Height);
 }
 
 void PostProcessing::Bind() const

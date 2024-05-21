@@ -2,6 +2,7 @@
 
 #include "Renderer.h"
 #include "VertexBufferLayout.h"
+#include "Buffer.h"
 #include "FrameBuffer.h"
 #include "RenderBuffer.h"
 #include "TextureFrameBuffer.h"
@@ -12,7 +13,7 @@ public:
 	PostProcessing();
 	~PostProcessing();
 
-	void Draw() const;
+	void Draw();
 	void Update(int width, int height);
 
 	void Bind() const;
@@ -32,5 +33,13 @@ private:
 	FrameBuffer m_FB;
 	TextureFrameBuffer m_Texture;
 	RenderBuffer m_RB;
+	Buffer m_Buffer;
+
+	// Bloom effect
+	unsigned int m_Amount;
+	Shader m_BlurShader;
+	TextureFrameBuffer m_BloomTexture;
+	FrameBuffer m_PingPongBuffer[2];
+	TextureFrameBuffer m_PingPongTexture[2];
 };
 

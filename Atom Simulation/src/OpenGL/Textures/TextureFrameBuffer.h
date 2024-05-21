@@ -8,7 +8,7 @@ public:
 	TextureFrameBuffer();
 	~TextureFrameBuffer();
 
-	void Init(int width = WIDTH, int height = HEIGHT);
+	void Init(int attachment = 0, int width = WIDTH, int height = HEIGHT);
 	void Update(int width, int height);
 
 	void Bind(unsigned int slot = 0) const override;
@@ -20,5 +20,6 @@ private:
 	void Create();
 	void Destroy();
 	unsigned int m_RendererID;
+	unsigned int m_Attachment;
 };
 

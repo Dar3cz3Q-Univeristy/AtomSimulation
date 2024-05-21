@@ -1,7 +1,7 @@
 #include "AntiAliasing.h"
 
 AntiAliasing::AntiAliasing(unsigned int samples) 
-	: m_Width(0), m_Height(0), m_Samples(samples)
+	: m_Width(WIDTH), m_Height(HEIGHT), m_Samples(samples)
 {
 	GLCall(glEnable(GL_MULTISAMPLE));
 
@@ -23,6 +23,9 @@ void AntiAliasing::Read() const
 void AntiAliasing::Update(int width, int height)
 {
 	if (width == m_Width && height == m_Height)
+		return;
+
+	if (width == 0 || height == 0)
 		return;
 
 	m_Width = width;
