@@ -28,16 +28,25 @@ function grNrChange(){
 
 function output(){
 finalStr="#texture="+element_name+".png\n#particles\n"
-min = -mass_number * 0.01;
-max = mass_number * 0.01;
+min = -mass_number/64 * 0.1;
+max = mass_number/64 * 0.1;
 
 for(i=0;i<atomic_number;i++){
-   
-    neutronStr="type=PROTON x="+(Math.random() * (max - min) + min)+" y="+(Math.random() * (max - min) + min)+" z="+(Math.random() * (max - min) + min)+" scale=.1\n"
+    theta=Math.PI * Math.random()
+    phi=2 * Math.PI * Math.random()
+    x=max*Math.sin(theta)*Math.cos(phi)
+    y=max*Math.sin(theta)*Math.sin(phi)
+    z=max*Math.cos(theta)
+    neutronStr="type=PROTON x="+x+" y="+y+" z="+z+" scale=.1\n"
     finalStr+=neutronStr
 }
 for(i=0;i<mass_number-atomic_number;i++){
-    neutronStr="type=NEUTRON x="+(Math.random() * (max - min) + min)+" y="+(Math.random() * (max - min) + min)+" z="+(Math.random() * (max - min) + min)+" scale=.1\n"
+    theta=Math.PI * Math.random()
+    phi=2 * Math.PI * Math.random()
+    x=max*Math.sin(theta)*Math.cos(phi)
+    y=max*Math.sin(theta)*Math.sin(phi)
+    z=max*Math.cos(theta)
+    neutronStr="type=NEUTRON x="+x+" y="+y+" z="+z+" scale=.1\n"
     finalStr+=neutronStr
 }
 let layers=[]
@@ -60,14 +69,15 @@ for(i=0;i<period_of_the_element-1;i++){
     }
 }
 for(i=0;i<layers.length;i++){
+    distanceFromAtomicNucleus=(i+1)*0.3
     for(j=0;j<layers[i];j++){
         startPkt=Math.floor(Math.random() * 3) + 1;
         if(startPkt==1){
-            finalStr+="x="+(i+1)+" y=0 z=0 scale=.1 speed="+(Math.floor(Math.random() * 20) + 1)+" axis_x="+Math.random()+" axis_y="+Math.random()+" axis_z="+Math.random()+"\n"
+            finalStr+="x="+distanceFromAtomicNucleus+" y=0 z=0 scale=.1 speed="+(Math.floor(Math.random() * 20) + 1)+" axis_x="+Math.random()+" axis_y="+Math.random()+" axis_z="+Math.random()+"\n"
         }else if(startPkt==2){
-            finalStr+="x=0 y="+(i+1)+" z=0 scale=.1 speed="+(Math.floor(Math.random() * 20) + 1)+" axis_x="+Math.random()+" axis_y="+Math.random()+" axis_z="+Math.random()+"\n"
+            finalStr+="x=0 y="+distanceFromAtomicNucleus+" z=0 scale=.1 speed="+(Math.floor(Math.random() * 20) + 1)+" axis_x="+Math.random()+" axis_y="+Math.random()+" axis_z="+Math.random()+"\n"
         }else if(startPkt==3){
-            finalStr+="x=0 y=0 z="+(i+1)+" scale=.1 speed="+(Math.floor(Math.random() * 20) + 1)+" axis_x="+Math.random()+" axis_y="+Math.random()+" axis_z="+Math.random()+"\n"
+            finalStr+="x=0 y=0 z="+distanceFromAtomicNucleus+" scale=.1 speed="+(Math.floor(Math.random() * 20) + 1)+" axis_x="+Math.random()+" axis_y="+Math.random()+" axis_z="+Math.random()+"\n"
         }
         
     }
