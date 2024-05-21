@@ -84,6 +84,7 @@ void Atom::OnDraw()
 	// Update View, Projection matricies and other uniforms
 	m_ParticleShader.Bind();
 	m_Camera->Matrix(m_ParticleShader, "u_VP");
+	m_Camera->Position(m_ParticleShader, "u_CamPos");
 	m_ParticleShader.SetUniform1i("u_ElectronCount", static_cast<int>(m_Electrons[ElementID].size()));
 
 	m_LightShader.Bind();

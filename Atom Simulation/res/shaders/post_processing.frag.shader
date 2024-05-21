@@ -1,12 +1,12 @@
 #version 330 core
 
 layout (location = 0) out vec4 color;
-layout (location = 1) out vec4 bloomColor;
 
 in vec2 v_TexCoords;
 
 uniform float u_Gamma;
 uniform sampler2D u_ScreenTexture;
+uniform sampler2D u_BloomTexture;
 uniform vec2 u_ScreenDimension;
 
 float offset_x = 1.0f / u_ScreenDimension.x;
@@ -17,17 +17,20 @@ const float exposure = 1.0f;
 // Functions
 vec4 reverseColors(vec4 color);
 vec4 gammaCorrection(vec4 color);
+vec4 greyScale(vec4 color);
 vec4 detectEdges(); 
 vec4 hdr(vec4 color);
 
 void main() 
 {
 	vec4 fragmentColor = vec4(texture2D(u_ScreenTexture, v_TexCoords));
+	vec4 bloomColor = vec4(texture2D(u_BloomTexture, v_TexCoords));
+
 	vec4 reverseColor = reverseColors(fragmentColor);
 	
-	color = hdr(fragmentColor);
 	//color = detectEdges();
-	//color = reverseColors(fragmentColor);
+	//color = greyScale(fragmentColor);
+	color = hdr(fragmentColor + bloomColor);
 }
 
 vec4 reverseColors(vec4 color) 
@@ -38,6 +41,11 @@ vec4 reverseColors(vec4 color)
 vec4 gammaCorrection(vec4 color) 
 {
 	return vec4(pow(color.rgb, vec3(1.0f / u_Gamma)), 1.0f);
+};
+
+vec4 greyScale(vec4 color) {
+	float avg = (color.x + color.y + color.z) / 3.0f;
+	return vec4(avg, avg, avg, 1.0f);
 };
 
 vec2 offsets[9] = vec2[]
