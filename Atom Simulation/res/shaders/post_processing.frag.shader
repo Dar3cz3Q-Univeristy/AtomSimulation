@@ -25,8 +25,8 @@ void main()
 	vec4 fragmentColor = vec4(texture2D(u_ScreenTexture, v_TexCoords));
 	vec4 reverseColor = reverseColors(fragmentColor);
 	
-	//color = hdr(fragmentColor);
-	color = detectEdges();
+	color = hdr(fragmentColor);
+	//color = detectEdges();
 	//color = reverseColors(fragmentColor);
 }
 
