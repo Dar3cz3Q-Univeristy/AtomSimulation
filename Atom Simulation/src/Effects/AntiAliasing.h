@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Renderer.h"
-#include "FrameBufferMSAA.h"
-#include "RenderBufferMSAA.h"
-#include "TextureMSAA.h"
+#include "Buffers/FrameBufferMSAA.h"
+#include "Buffers/RenderBufferMSAA.h"
+#include "Textures/TextureMSAA.h"
 
 class AntiAliasing
 {

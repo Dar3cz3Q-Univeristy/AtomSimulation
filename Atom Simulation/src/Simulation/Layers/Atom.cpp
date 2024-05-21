@@ -22,7 +22,6 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 
 	m_SphereIB.Init(sphere.GetIndicies());
 
-	m_LightShader.Init("res/shaders/light.vert.shader", "res/shaders/light.frag.shader");
 	m_ParticleShader.Init("res/shaders/default.vert.shader", "res/shaders/default.frag.shader");
 
 	SPHERE_INDICIES_COUNT = static_cast<unsigned int>(sphere.GetIndicies().size());
@@ -64,6 +63,24 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 
 	DownloadRenderData();
 
+	//
+	//	Shadows
+	//
+
+	m_ShadowShader.Init("res/shaders/shadow.vert.shader", "res/shaders/shadow.frag.shader");
+
+	//m_ShadowMap.Init(2480, 2480);
+	//m_ShadowFB.Init(m_ShadowMap);
+
+	glm::vec3 lightPos(50.0f, 50.0f, 50.0f);
+
+	glm::mat4 orthgonalProjection = glm::ortho(-35.0f, 35.0f, -35.0f, 35.0f, 0.1f, 75.0f);
+	glm::mat4 lightView = glm::lookAt(20.0f * lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 lightProjection = orthgonalProjection * lightView;
+
+	//m_ShadowShader.Bind();
+	//m_ShadowShader.SetUniformMat4f("u_LightProjection", lightProjection);
+
 	glfwSetKeyCallback(m_Window, ChangeElement);
 
 	AS_LOG("Atom layer initialized");
@@ -79,16 +96,16 @@ Atom::~Atom() {
 			delete electron;
 }
 
-void Atom::OnDraw()
+void Atom::DrawScene()
 {
 	// Update View, Projection matricies and other uniforms
 	m_ParticleShader.Bind();
-	m_Camera->Matrix(m_ParticleShader, "u_VP");
-	m_Camera->Position(m_ParticleShader, "u_CamPos");
-	m_ParticleShader.SetUniform1i("u_ElectronCount", static_cast<int>(m_Electrons[ElementID].size()));
 
-	m_LightShader.Bind();
-	m_Camera->Matrix(m_LightShader, "u_VP");
+	glm::vec3 cubePos = m_Cube.GetPosition();
+	m_ParticleShader.SetUniform3f("u_LightPosition", cubePos.x, cubePos.y, cubePos.z);
+
+	m_Camera->Position(m_ParticleShader, "u_CamPos");
+	m_Camera->Matrix(m_ParticleShader, "u_VP");
 
 	m_CubeShader.Bind();
 	m_Camera->Matrix(m_CubeShader, "u_VP");
@@ -96,26 +113,9 @@ void Atom::OnDraw()
 	m_SphereVA.Bind();
 	m_SphereVB.Bind();
 
-	std::array<glm::vec3, MAX_ELECTRON_COUNT> electronsPosition{};
-	std::array<glm::vec3, MAX_ELECTRON_COUNT> electronsColors{};
-
-	int counter = 0;
-
 	// Draw electrons
 	for (auto& electron : m_Electrons[ElementID])
-	{
-		electron->Draw(m_LightShader);
-
-		electronsPosition[counter] = electron->GetPosition();
-		electronsColors[counter] = electron->GetColor();
-
-		counter++;
-	}
-
-	// Update lights positions and colors
-	m_ParticleShader.Bind();
-	m_ParticleShader.SetUniform3fv("u_MultipleLightPos", electronsPosition);
-	m_ParticleShader.SetUniform3fv("u_MultipleLightColor", electronsColors);
+		electron->Draw(m_ParticleShader);
 
 	// Draw Core
 	for (auto& particle : m_Particles[ElementID])
@@ -126,6 +126,11 @@ void Atom::OnDraw()
 	m_CubeVA.Bind();
 	m_CubeIB.Bind();
 	m_Cube.Draw(m_CubeShader);
+}
+
+void Atom::OnDraw()
+{
+	DrawScene();
 
 	// Check if ElementID has changed
 	OnChange();

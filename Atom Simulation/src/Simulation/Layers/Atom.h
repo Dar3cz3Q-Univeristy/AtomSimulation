@@ -9,6 +9,8 @@
 #include "Objects/Particle.h"
 #include "Objects/Electron.h"
 #include "Objects/DisplayCube.h"
+#include "TextureShadowMap.h"
+#include "FrameBufferShadow.h"
 
 class Atom : public Layer
 {
@@ -16,12 +18,17 @@ public:
 	Atom(GLFWwindow* window, Camera* camera);
 	~Atom();
 
+	void DrawScene();
 	void OnDraw() override;
 	void OnUpdate() override;
  private:
 	GLFWwindow* m_Window;
 	Camera* m_Camera;
-	Shader m_LightShader;
+
+	// Shadows
+	Shader m_ShadowShader;
+	TextureShadowMap m_ShadowMap;
+	FrameBufferShadow m_ShadowFB;
 
 	// Cube
 	Shader m_CubeShader;

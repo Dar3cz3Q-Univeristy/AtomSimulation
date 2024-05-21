@@ -4,10 +4,10 @@ Particle::Particle(ParticleType type, const glm::vec3& position, float scale)
 	: m_Type(type), m_Position(position), m_Scale(scale)
 {
 	if (type == PROTON) {
-		m_Color = glm::vec3(0.0f, 0.0f, 1.0f);
+		m_Color = glm::vec3(0.0f, 0.0f, 0.6f);
 	}
 	else if (type == NEUTRON){
-		m_Color = glm::vec3(1.0f, 0.0f, 0.0f);
+		m_Color = glm::vec3(0.6f, 0.0f, 0.0f);
 	}
 	else {
 		m_Color = glm::vec3(0.0f);

@@ -5,7 +5,7 @@
 #include "Buffer.h"
 #include "FrameBuffer.h"
 #include "RenderBuffer.h"
-#include "TextureFrameBuffer.h"
+#include "Textures/TextureFrameBuffer.h"
 
 class PostProcessing
 {
