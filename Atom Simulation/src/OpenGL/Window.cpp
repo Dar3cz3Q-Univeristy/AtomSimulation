@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Global.h"
 
 // Include layers
 #include "Layers/Example.h"
@@ -62,7 +63,7 @@ void Window::Run()
             }
 
             m_AntiAliasing->Read();
-            m_PostProcessing->Draw();
+            m_PostProcessing->Draw(FilterID);
         }
 
         Update();
@@ -91,15 +92,14 @@ void Window::Init()
 
     gladLoadGL();
 
-    // Resize event callback
+    // Event callback
     glfwSetFramebufferSizeCallback(m_Window, WindowResizeCallBack);
+    glfwSetKeyCallback(m_Window, KeyCallBack);
 
     glfwSetInputMode(m_Window, GLFW_STICKY_KEYS, GLFW_TRUE);
 
     GLCall(glEnable(GL_DEPTH_TEST));
     GLCall(glDepthFunc(GL_LESS));
-    //GLCall(glEnable(GL_BLEND));
-    //GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
     AS_LOG("Window initialized");
     AS_LOG(glGetString(GL_VERSION));
@@ -133,6 +133,9 @@ void Window::Events()
 
     m_Camera.UpdateWidth(m_Width);
     m_Camera.UpdateHeight(m_Height);
+    
+    for (Layer* layer : m_LayerStack)
+        layer->OnResize(m_Width, m_Height);
 
     m_Minimized = false;
 }
@@ -162,5 +165,21 @@ void Window::Statistics()
 void WindowResizeCallBack(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+}
+
+void KeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+        ElementID = (ElementID + 1) % ELEMENTS_COUNT;
+    else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+        ElementID = (ElementID == 0 ? ELEMENTS_COUNT - 1 : ElementID - 1);
+    else if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+        FilterID = 0;
+    else if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+        FilterID = 1;
+    else if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+        FilterID = 2;
+    else if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+        FilterID = 3;
 }
 

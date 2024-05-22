@@ -12,6 +12,7 @@ enum ParticleType {
 class Particle
 {
 public:
+	Particle() = default;
 	Particle(ParticleType type, const glm::vec3& position, float scale);
 	~Particle();
 

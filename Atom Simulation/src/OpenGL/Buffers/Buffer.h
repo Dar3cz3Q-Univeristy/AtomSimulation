@@ -11,7 +11,10 @@ public:
 
 	void Push(unsigned int glAttachment);
 	void Draw();
+	void SaveCurrentFrameBuffer();
+	void RestorePreviousFrameBuffer();
 private:
+	int m_CurrentBuffer;
 	std::vector<unsigned int> m_Attachments;
 };
 

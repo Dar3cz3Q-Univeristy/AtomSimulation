@@ -1,0 +1,5 @@
+#texture=Test.png
+#particles
+type=PROTON x=0 y=0 z=0 scale=1
+#electrons
+x=0 y=1.2 z=0 scale=.3 speed=20 axis_x=0 axis_y=0 axis_z=1

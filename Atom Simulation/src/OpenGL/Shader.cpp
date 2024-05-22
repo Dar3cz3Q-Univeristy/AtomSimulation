@@ -116,11 +116,6 @@ void Shader::SetUniform3fv(const std::string& name, const std::vector<glm::vec3>
     GLCall(glUniform3fv(GetUniformLocation(name), static_cast<GLsizei>(data.size()), glm::value_ptr(data[0])));
 }
 
-void Shader::SetUniform3fv(const std::string& name, std::array<glm::vec3, MAX_ELECTRON_COUNT>& data)
-{
-    GLCall(glUniform3fv(GetUniformLocation(name), MAX_ELECTRON_COUNT, glm::value_ptr(data[0])));
-}
-
 void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
 {
     GLCall(glUniform4f(GetUniformLocation(name), v0, v1, v2, v3));

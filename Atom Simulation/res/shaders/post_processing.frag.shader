@@ -8,6 +8,7 @@ uniform float u_Gamma;
 uniform sampler2D u_ScreenTexture;
 uniform sampler2D u_BloomTexture;
 uniform vec2 u_ScreenDimension;
+uniform int u_FilterID;
 
 float offset_x = 1.0f / u_ScreenDimension.x;
 float offset_y = 1.0f / u_ScreenDimension.y;
@@ -24,13 +25,21 @@ vec4 hdr(vec4 color);
 void main() 
 {
 	vec4 fragmentColor = vec4(texture2D(u_ScreenTexture, v_TexCoords));
-	vec4 bloomColor = vec4(texture2D(u_BloomTexture, v_TexCoords));
-
-	vec4 reverseColor = reverseColors(fragmentColor);
 	
-	//color = detectEdges();
-	//color = greyScale(fragmentColor);
-	color = hdr(fragmentColor + bloomColor);
+	switch(u_FilterID) {
+		case 1:
+			color = reverseColors(fragmentColor);
+			break;
+		case 2:
+			color = greyScale(fragmentColor);
+			break;
+		case 3:
+			color = detectEdges();
+			break;
+		default:
+			color = hdr(fragmentColor);
+			break;
+	}
 }
 
 vec4 reverseColors(vec4 color) 

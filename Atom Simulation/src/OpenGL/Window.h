@@ -58,3 +58,4 @@ private:
 };
 
 void WindowResizeCallBack(GLFWwindow* window, int width, int height);
+void KeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods);

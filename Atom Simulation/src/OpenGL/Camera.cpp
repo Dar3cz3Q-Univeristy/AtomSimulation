@@ -7,6 +7,7 @@ Camera::Camera(int width, int height, glm::vec3 position) : m_Width(width), m_He
 
 void Camera::Matrix(Shader& shader, const std::string& uniform) const
 {
+	shader.Bind();
 	shader.SetUniformMat4f(uniform, m_CameraMatrix);
 }
 

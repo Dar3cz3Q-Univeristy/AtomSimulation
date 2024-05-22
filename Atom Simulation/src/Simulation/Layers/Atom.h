@@ -6,6 +6,7 @@
 #include "Layer.h"
 #include "Specification.h"
 
+#include "Buffer.h"
 #include "Objects/Particle.h"
 #include "Objects/Electron.h"
 #include "Objects/DisplayCube.h"
@@ -19,16 +20,22 @@ public:
 	~Atom();
 
 	void DrawScene();
+	void DrawShadow();
 	void OnDraw() override;
 	void OnUpdate() override;
+	void OnResize(int width, int height) override;
  private:
+	Renderer m_Renderer;
 	GLFWwindow* m_Window;
 	Camera* m_Camera;
+	Buffer m_Buffer;
 
-	// Shadows
+	// Shadows && Lights
+	Shader m_ElectronShader;
 	Shader m_ShadowShader;
 	TextureShadowMap m_ShadowMap;
 	FrameBufferShadow m_ShadowFB;
+	glm::mat4 m_LightProjection;
 
 	// Cube
 	Shader m_CubeShader;
@@ -52,8 +59,3 @@ public:
 	void ChangeRenderData();
 	void DownloadRenderData();
 };
-
-static int ElementID = 0;
-
-void ChangeElement(GLFWwindow* window, int key, int scancode, int action, int mods);
-

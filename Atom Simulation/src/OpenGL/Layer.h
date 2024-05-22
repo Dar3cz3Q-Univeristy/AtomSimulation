@@ -21,6 +21,7 @@ public:
 
 	virtual void OnDraw() {}
 	virtual void OnUpdate() {}
+	virtual void OnResize(int width, int height) {}
 
 	const std::string& GetName() const { return m_DebugName; }
 protected:

@@ -13,7 +13,7 @@ public:
 	PostProcessing();
 	~PostProcessing();
 
-	void Draw();
+	void Draw(int filterID);
 	void Update(int width, int height);
 
 	void Bind() const;
@@ -34,12 +34,5 @@ private:
 	TextureFrameBuffer m_Texture;
 	RenderBuffer m_RB;
 	Buffer m_Buffer;
-
-	// Bloom effect
-	unsigned int m_Amount;
-	Shader m_BlurShader;
-	TextureFrameBuffer m_BloomTexture;
-	FrameBuffer m_PingPongBuffer[2];
-	TextureFrameBuffer m_PingPongTexture[2];
 };
 

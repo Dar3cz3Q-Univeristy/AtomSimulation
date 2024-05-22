@@ -1,4 +1,6 @@
 #include "Atom.h"
+#include "Global.h"
+
 #include "Objects/Template/Sphere.h"
 #include "Objects/Template/Cube.h"
 
@@ -23,6 +25,7 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 	m_SphereIB.Init(sphere.GetIndicies());
 
 	m_ParticleShader.Init("res/shaders/default.vert.shader", "res/shaders/default.frag.shader");
+	m_ElectronShader.Init("res/shaders/electron.vert.shader", "res/shaders/electron.frag.shader");
 
 	SPHERE_INDICIES_COUNT = static_cast<unsigned int>(sphere.GetIndicies().size());
 
@@ -35,14 +38,9 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 	m_CubeVB.Init(cube.GetVerticies());
 
 	m_CubeVA.LinkAttribute(m_CubeVB, 0, 3, GL_FLOAT, sizeof(Vertex));		// Position
-
-#if 1
 	m_CubeVA.LinkAttribute(m_CubeVB, 1, 2, GL_FLOAT, sizeof(Vertex), 9);	// texCoords
+
 	m_CubeShader.Init("res/shaders/cube_texture.vert.shader", "res/shaders/cube_texture.frag.shader");
-#else
-	m_CubeVA.LinkAttribute(m_CubeVB, 1, 3, GL_FLOAT, sizeof(Vertex), 6);	// Colors
-	m_CubeShader.Init("res/shaders/cube_default.vert.shader", "res/shaders/cube_default.frag.shader");
-#endif
 
 	m_CubeIB.Init(cube.GetIndicies());
 
@@ -56,10 +54,31 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 	// Specify file location for render data
 	//
 
-	m_FileDataPointer[0] = "Magnesium.aselement";
-	m_FileDataPointer[1] = "Calcium.aselement";
-	m_FileDataPointer[2] = "Silver.aselement";
-	m_FileDataPointer[3] = "Platinium.aselement";
+	m_FileDataPointer[0] = "Test.aselement";
+	m_FileDataPointer[1] = "Aluminium.aselement";
+	m_FileDataPointer[2] = "Argon.aselement";
+	m_FileDataPointer[3] = "Beryllium.aselement";
+	m_FileDataPointer[4] = "Boron.aselement";
+	m_FileDataPointer[5] = "Calcium.aselement";
+	m_FileDataPointer[6] = "Carbon.aselement";
+	m_FileDataPointer[7] = "Chlorine.aselement";
+	m_FileDataPointer[8] = "Copernicium.aselement";
+	m_FileDataPointer[9] = "Fluorine.aselement";
+	m_FileDataPointer[10] = "Gold.aselement";
+	m_FileDataPointer[11] = "Helium.aselement";
+	m_FileDataPointer[12] = "Hydrogen.aselement";
+	m_FileDataPointer[13] = "Lithium.aselement";
+	m_FileDataPointer[14] = "Magnesium.aselement";
+	m_FileDataPointer[15] = "Neon.aselement";
+	m_FileDataPointer[16] = "Nitrogen.aselement";
+	m_FileDataPointer[17] = "Oxygen.aselement";
+	m_FileDataPointer[18] = "Phosphorus.aselement";
+	m_FileDataPointer[19] = "Platinium.aselement";
+	m_FileDataPointer[20] = "Polonium.aselement";
+	m_FileDataPointer[21] = "Silicon.aselement";
+	m_FileDataPointer[22] = "Silver.aselement";
+	m_FileDataPointer[23] = "Sodium.aselement";
+	m_FileDataPointer[24] = "Sulfur.aselement";
 
 	DownloadRenderData();
 
@@ -69,19 +88,34 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 
 	m_ShadowShader.Init("res/shaders/shadow.vert.shader", "res/shaders/shadow.frag.shader");
 
-	//m_ShadowMap.Init(2480, 2480);
-	//m_ShadowFB.Init(m_ShadowMap);
+	int shadowWidth = 2048, shadowHeight = 2048;
 
-	glm::vec3 lightPos(50.0f, 50.0f, 50.0f);
+	m_ShadowMap.Init(shadowWidth, shadowHeight);
 
-	glm::mat4 orthgonalProjection = glm::ortho(-35.0f, 35.0f, -35.0f, 35.0f, 0.1f, 75.0f);
-	glm::mat4 lightView = glm::lookAt(20.0f * lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 lightProjection = orthgonalProjection * lightView;
+	int windowWidth, windowHeight;
+	glfwGetWindowSize(m_Window, &windowWidth, &windowHeight);
 
-	//m_ShadowShader.Bind();
-	//m_ShadowShader.SetUniformMat4f("u_LightProjection", lightProjection);
+	m_ShadowMap.SetWindowWidth(windowWidth);
+	m_ShadowMap.SetWindowHeight(windowHeight);
 
-	glfwSetKeyCallback(m_Window, ChangeElement);
+	m_ShadowFB.Init(m_ShadowMap);
+
+	glm::vec3 lightPos = m_Cube.GetPosition();
+
+	float aspect = (float)shadowWidth / (float)shadowHeight;
+	float near = 1.0f;
+	float far = 25.0f;
+
+	glm::mat4 perspectiveProjection = glm::perspective(glm::radians(45.0f), aspect, near, far);
+	glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	m_LightProjection = perspectiveProjection * lightView;
+
+	m_ShadowShader.Bind();
+	m_ShadowShader.SetUniformMat4f("u_LightProjection", m_LightProjection);
+
+	m_ParticleShader.Bind();
+	m_ParticleShader.SetUniform3f("u_LightPosition", lightPos.x, lightPos.y, lightPos.z);
+	m_ParticleShader.SetUniformMat4f("u_LightProjection", m_LightProjection);
 
 	AS_LOG("Atom layer initialized");
 }
@@ -98,26 +132,28 @@ Atom::~Atom() {
 
 void Atom::DrawScene()
 {
-	// Update View, Projection matricies and other uniforms
+	// Update uniforms
 	m_ParticleShader.Bind();
 
-	glm::vec3 cubePos = m_Cube.GetPosition();
-	m_ParticleShader.SetUniform3f("u_LightPosition", cubePos.x, cubePos.y, cubePos.z);
+	m_ShadowMap.Bind();
+	m_ParticleShader.SetUniform1i("u_ShadowMap", 0);
 
-	m_Camera->Position(m_ParticleShader, "u_CamPos");
+	m_Camera->Matrix(m_ElectronShader, "u_VP");
 	m_Camera->Matrix(m_ParticleShader, "u_VP");
+	m_Camera->Position(m_ParticleShader, "u_CamPos");
 
 	m_CubeShader.Bind();
 	m_Camera->Matrix(m_CubeShader, "u_VP");
 
+	// Draw particles
 	m_SphereVA.Bind();
 	m_SphereVB.Bind();
 
 	// Draw electrons
 	for (auto& electron : m_Electrons[ElementID])
-		electron->Draw(m_ParticleShader);
+		electron->Draw(m_ElectronShader);
 
-	// Draw Core
+	// Draw particles
 	for (auto& particle : m_Particles[ElementID])
 		particle->Draw(m_ParticleShader);
 
@@ -128,8 +164,45 @@ void Atom::DrawScene()
 	m_Cube.Draw(m_CubeShader);
 }
 
+void Atom::DrawShadow()
+{
+	// Prepare shadow buffer
+	m_Buffer.SaveCurrentFrameBuffer();
+
+	m_ShadowMap.SetViewPort();
+	m_ShadowFB.Bind();
+	m_Renderer.Clear();
+
+	// Draw scene using shadow shader
+	m_SphereVA.Bind();
+	m_SphereVB.Bind();
+
+	for (auto& electron : m_Electrons[ElementID])
+		electron->Draw(m_ShadowShader);
+
+	for (auto& particle : m_Particles[ElementID])
+		particle->Draw(m_ShadowShader);
+
+	m_CubeTextures[ElementID].Bind();
+	m_CubeVA.Bind();
+	m_CubeIB.Bind();
+	m_Cube.Draw(m_ShadowShader);
+
+	// Restore previous settings
+	m_ShadowFB.Unbind();
+	m_ShadowMap.RestoreViewPort();
+	m_Renderer.Clear();
+	m_Buffer.RestorePreviousFrameBuffer();
+}
+
 void Atom::OnDraw()
 {
+	// Draw Shadow to Shadowe buffer
+	DrawShadow();
+
+	m_Renderer.Clear();
+
+	//Draw Actual Scene to Antialiasing buffer
 	DrawScene();
 
 	// Check if ElementID has changed
@@ -139,6 +212,11 @@ void Atom::OnDraw()
 void Atom::OnUpdate()
 {
 	m_Camera->Inputs(m_Window);
+}
+
+void Atom::OnResize(int width, int height)
+{
+	m_ShadowMap.Update(width, height);
 }
 
 void Atom::OnChange()
@@ -159,9 +237,6 @@ void Atom::ChangeRenderData()
 
 void Atom::DownloadRenderData()
 {
-	// TODO: This probably should be better written :)
-	// Parsing data to render elements. 
-
 	std::ifstream stream("res/elements/" + m_FileDataPointer[ElementID] + "");
 
 	if (!stream) {
@@ -257,15 +332,7 @@ void Atom::DownloadRenderData()
 		}
 	}
 
-	m_CubeTextures[ElementID].Init("res/textures/elements/" + tempTexture + "");
+	m_CubeTextures[ElementID].Init("res/textures/atom/" + tempTexture + "");
 
 	stream.close();
-}
-
-void ChangeElement(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-		ElementID = (ElementID + 1) % ELEMENTS_COUNT;
-	else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-		ElementID = (ElementID == 0 ? ELEMENTS_COUNT - 1 : ElementID - 1);
 }

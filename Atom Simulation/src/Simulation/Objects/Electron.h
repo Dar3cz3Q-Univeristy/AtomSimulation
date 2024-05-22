@@ -10,11 +10,11 @@ public:
 	~Electron();
 
 	void Draw(Shader& shader);
-	const ParticleType GetType() const { return c_Type; };
+	ParticleType GetType() const { return m_Type; };
 	glm::vec3& GetPosition() { return m_Position; };
 	glm::vec3& GetColor() { return m_Color; };
 private:
-	const ParticleType c_Type = ELECTRON;
+	ParticleType m_Type = ELECTRON;
 	glm::vec3 m_Position;
 	glm::vec3 m_Color;
 	glm::vec3 m_RotationAxis;

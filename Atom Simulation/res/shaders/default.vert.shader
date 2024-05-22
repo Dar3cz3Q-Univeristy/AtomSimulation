@@ -8,10 +8,12 @@ out vec4 v_Color;
 out vec3 v_Position;
 out vec3 v_Normals;
 out vec2 v_TexCoord;
+out vec4 v_FragPositionLight;
 
 uniform mat4 u_VP;
 uniform mat4 u_Model;
 uniform vec4 u_Color;
+uniform mat4 u_LightProjection;
 
 void main() 
 {
@@ -21,4 +23,5 @@ void main()
 	v_Position = position;
 	v_Normals = normals;
 	v_TexCoord = texCoords;
+	v_FragPositionLight = u_LightProjection * vec4(position, 1.0f);
 };
