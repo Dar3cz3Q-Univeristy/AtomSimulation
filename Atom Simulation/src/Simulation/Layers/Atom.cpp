@@ -79,6 +79,7 @@ Atom::Atom(GLFWwindow* window, Camera* camera)
 	m_FileDataPointer[22] = "Silver.aselement";
 	m_FileDataPointer[23] = "Sodium.aselement";
 	m_FileDataPointer[24] = "Sulfur.aselement";
+	m_FileDataPointer[25] = "Antimony.aselement";
 
 	DownloadRenderData();
 

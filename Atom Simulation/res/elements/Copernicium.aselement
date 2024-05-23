@@ -1,4 +1,4 @@
-#texture=Copernicum.png
+#texture=Copernicium.png
 #particles
 type=PROTON x=0.37339723113130346 y=-0.15638705205152556 z=-0.18552848943048986 scale=.1
 type=PROTON x=-0.15166005223739612 y=-0.38177698809423044 z=0.17189759327372245 scale=.1

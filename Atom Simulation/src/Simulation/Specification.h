@@ -10,4 +10,4 @@ auto constexpr GAMMA_CORRECTION_LEVEL = 2.2f;
 //
 // Atom layer
 //
-auto constexpr ELEMENTS_COUNT = 25;
+auto constexpr ELEMENTS_COUNT = 26;
