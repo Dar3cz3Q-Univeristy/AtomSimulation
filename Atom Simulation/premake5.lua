@@ -27,6 +27,12 @@ project "Atom Simulation"
 	{
 		"src",
 		"src/vendor",
+		"src/Simulation",
+		"src/Effects",
+		"src/OpenGL",
+		"src/OpenGL/Textures",
+		"src/OpenGL/Buffers",
+		"src/Utils",
 		"Dependencies/glad/include",
 		"Dependencies/GLFW/include"
 	}
@@ -46,11 +52,11 @@ project "Atom Simulation"
 		systemversion "latest"
 
 	filter "configurations:Debug"
-		defines "DEBUG"
+		defines "AS_DEBUG"
 		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
-		defines "RELEASE"
+		defines "AS_RELEASE"
 		runtime "Release"
 		optimize "on"

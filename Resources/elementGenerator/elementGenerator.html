@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./elementGeneratorStyle.css">
+    <title>ElementGenerator</title>
+</head>
+<body>
+    <label for="element_name">Nazwa pierwiastka</label>
+    <input type="text" class="inputs" id="element_name" onchange="elNameChange();">
+    <br>
+    <label for="mass_number">Liczba masowa</label>
+    <input type="number" class="inputs"id="mass_number" min="0" onchange="msNrChange();">
+    <br>
+    <label for="atomic_number">Liczba atomowa</label>
+    <input type="number" class="inputs"id="atomic_number" min="1" max="118" onchange="atNrChange()">
+    <br>
+    <label for="period_of_the_element">Okres pierwiastka</label>
+    <input type="number"class="inputs" id="period_of_the_element" min="1" max="7" onchange="perNrChange()">
+    <br>
+    <label for="group_of_the_element">Grupa pierwiastka</label>
+    <input type="number"class="inputs" id="group_of_the_element" min="1" max="18" onchange="grNrChange()">
+    <br>
+    <div id="output">
+
+    </div>
+    <script src="./elementGeneratorScript.js"></script>
+</body>
+</html>
