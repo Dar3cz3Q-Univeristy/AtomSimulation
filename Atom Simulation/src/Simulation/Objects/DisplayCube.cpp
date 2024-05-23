@@ -1,4 +1,5 @@
 #include "DisplayCube.h"
+#include "Global.h"
 
 DisplayCube::DisplayCube() 
 {

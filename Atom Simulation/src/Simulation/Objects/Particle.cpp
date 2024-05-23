@@ -1,4 +1,5 @@
 #include "Particle.h"
+#include "Global.h"
 
 Particle::Particle(ParticleType type, const glm::vec3& position, float scale)
 	: m_Type(type), m_Position(position), m_Scale(scale)
