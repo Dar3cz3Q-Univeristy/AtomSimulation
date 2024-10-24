@@ -3,7 +3,7 @@
 ![Preview image](Resources/images/Preview.png)
 ## Usage
 ```
-git clone https://github.com/Dar3cz3Q/AtomSimulation.git
+git clone https://github.com/Dar3cz3Q-University/AtomSimulation.git
 ```
 Then run ```Scripts/Setup-Windows.bat``` and open ```Atom Simulation.sln``` in Visual Studio 2022.
 ### Used keys
